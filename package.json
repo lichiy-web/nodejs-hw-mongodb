@@ -1,0 +1,39 @@
+{
+  "name": "node-js-template",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint src/**/*.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lichiy-web/node-js-template.git"
+  },
+  "keywords": [],
+  "author": "Yevhen Lykhosherstov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lichiy-web/node-js-template/issues"
+  },
+  "homepage": "https://github.com/lichiy-web/node-js-template#readme",
+  "description": "GoIT Node.js template",
+  "devDependencies": {
+    "@eslint/js": "^9.23.0",
+    "@faker-js/faker": "^9.6.0",
+    "eslint": "^9.23.0",
+    "globals": "^16.0.0",
+    "nodemon": "^3.1.9",
+    "pino-pretty": "^13.0.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongodb": "^6.15.0",
+    "mongoose": "^8.12.2",
+    "pino-http": "^10.4.0"
+  }
+}
