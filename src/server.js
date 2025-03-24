@@ -21,7 +21,7 @@ export const setupServer = () => {
   );
 
   app.get('/', (req, res) => {
-    res.json({ message: 'Hello world!' });
+    res.json({ availableRoutes: ['/', '/contacts', 'contacts/:contactId'] });
   });
 
   app.get('/contacts', async (req, res) => {
