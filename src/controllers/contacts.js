@@ -6,6 +6,7 @@ import {
   getContactById,
   updateContact,
 } from '../services/contacts.js';
+import { isValidId } from '../utils/isValidId.js';
 
 export const rootController = (req, res) => {
   res.json({ availableRoutes: ['/', '/contacts', 'contacts/:contactId'] });
@@ -23,6 +24,8 @@ export const getAllContactsController = async (req, res) => {
 
 export const getContactByIdController = async (req, res, next) => {
   const { contactId } = req.params;
+  if (!isValidId(contactId))
+    return next(createHttpError(404, 'Route not found'));
   const contact = await getContactById(contactId);
 
   if (!contact) {
@@ -48,6 +51,9 @@ export const createContactController = async (req, res, next) => {
 
 export const deleteContactController = async (req, res, next) => {
   const { contactId } = req.params;
+  if (!isValidId(contactId))
+    return next(createHttpError(404, 'Route not found'));
+
   const contact = await deleteContact(contactId);
 
   if (!contact) {
@@ -59,35 +65,40 @@ export const deleteContactController = async (req, res, next) => {
 
 export const upsertContactController = async (req, res, next) => {
   const { contactId } = req.params;
+  if (!isValidId(contactId))
+    return next(createHttpError(404, 'Contact not found'));
 
   const result = await updateContact(contactId, req.body, {
     upsert: true,
   });
 
   if (!result) {
-    return next(createHttpError(404, 'Student not found'));
+    return next(createHttpError(404, 'Contact not found'));
   }
 
   const status = result.isNew ? 201 : 200;
 
   res.status(status).json({
     status,
-    message: `Successfully upserted a student!`,
+    message: `Successfully upserted a contact!`,
     data: result.contact,
   });
 };
 
 export const patchContactController = async (req, res, next) => {
   const { contactId } = req.params;
+  if (!isValidId(contactId))
+    return next(createHttpError(404, 'Contact not found'));
+
   const result = await updateContact(contactId, req.body);
 
   if (!result) {
-    return next(createHttpError(404, 'Student not found'));
+    return next(createHttpError(404, 'Contact not found'));
   }
 
   res.json({
     status: 200,
-    message: `Successfully patched a student!`,
+    message: `Successfully patched a contact!`,
     data: result.contact,
   });
 };
