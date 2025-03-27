@@ -10,7 +10,7 @@ import { isValidId } from '../utils/isValidId.js';
 
 export const rootController = (req, res) => {
   res.json({
-    availableRoutes: ['/', '/contacts', 'contacts/:contactId'],
+    availableRoutes: ['/', '/contacts', '/contacts/:contactId'],
     availableQueris: {
       get: ['/', '/contacts', '/contacts/:contactId'],
       post: ['/contacts/:contactId'],
