@@ -12,11 +12,11 @@ export const rootController = (req, res) => {
   res.json({
     availableRoutes: ['/', '/contacts', 'contacts/:contactId'],
     availableQueris: {
-      get: ['/', '/contacts', 'contacts/:contactId'],
-      post: ['contacts/:contactId'],
-      delete: ['contacts/:contactId'],
-      put: ['contacts/:contactId'],
-      patch: ['contacts/:contactId'],
+      get: ['/', '/contacts', '/contacts/:contactId'],
+      post: ['/contacts/:contactId'],
+      delete: ['/contacts/:contactId'],
+      put: ['/contacts/:contactId'],
+      patch: ['/contacts/:contactId'],
     },
   });
 };
