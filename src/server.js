@@ -30,6 +30,8 @@ export const setupServer = () => {
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
-    console.dir(`http://localhost:${PORT}`, { color: 'blue' });
+    if (process.env.npm_lifecycle_event === 'dev') {
+      console.dir(`http://localhost:${PORT}`);
+    }
   });
 };

@@ -7,11 +7,12 @@ import {
   updateContact,
 } from '../services/contacts.js';
 import { isValidId } from '../utils/isValidId.js';
+import { ERR_MSG } from '../constants/contacts.js';
 
 export const rootController = (req, res) => {
   res.json({
     availableRoutes: ['/', '/contacts', '/contacts/:contactId'],
-    availableQueris: {
+    availableQueries: {
       get: ['/', '/contacts', '/contacts/:contactId'],
       post: ['/contacts/:contactId'],
       delete: ['/contacts/:contactId'],
@@ -33,12 +34,11 @@ export const getAllContactsController = async (req, res) => {
 
 export const getContactByIdController = async (req, res, next) => {
   const { contactId } = req.params;
-  if (!isValidId(contactId))
-    return next(createHttpError(404, 'Route not found'));
+  if (!isValidId(contactId)) throw createHttpError(404, ERR_MSG[404]);
   const contact = await getContactById(contactId);
 
   if (!contact) {
-    return next(createHttpError(404, 'Route not found'));
+    throw createHttpError(404, ERR_MSG[404]);
   }
 
   res.status(200).json({
@@ -60,13 +60,12 @@ export const createContactController = async (req, res, next) => {
 
 export const deleteContactController = async (req, res, next) => {
   const { contactId } = req.params;
-  if (!isValidId(contactId))
-    return next(createHttpError(404, 'Route not found'));
+  if (!isValidId(contactId)) throw createHttpError(404, ERR_MSG[404]);
 
   const contact = await deleteContact(contactId);
 
   if (!contact) {
-    return next(createHttpError(404, 'Route not found'));
+    throw createHttpError(404, ERR_MSG[404]);
   }
 
   res.status(204).send();
@@ -74,15 +73,14 @@ export const deleteContactController = async (req, res, next) => {
 
 export const upsertContactController = async (req, res, next) => {
   const { contactId } = req.params;
-  if (!isValidId(contactId))
-    return next(createHttpError(404, 'Contact not found'));
+  if (!isValidId(contactId)) throw createHttpError(404, ERR_MSG[404]);
 
   const result = await updateContact(contactId, req.body, {
     upsert: true,
   });
 
   if (!result) {
-    return next(createHttpError(404, 'Contact not found'));
+    throw createHttpError(404, ERR_MSG[404]);
   }
 
   const status = result.isNew ? 201 : 200;
@@ -96,13 +94,12 @@ export const upsertContactController = async (req, res, next) => {
 
 export const patchContactController = async (req, res, next) => {
   const { contactId } = req.params;
-  if (!isValidId(contactId))
-    return next(createHttpError(404, 'Contact not found'));
+  if (!isValidId(contactId)) throw createHttpError(404, ERR_MSG[404]);
 
   const result = await updateContact(contactId, req.body);
 
   if (!result) {
-    return next(createHttpError(404, 'Contact not found'));
+    throw createHttpError(404, ERR_MSG[404]);
   }
 
   res.json({
