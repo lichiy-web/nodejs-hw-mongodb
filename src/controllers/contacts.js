@@ -9,7 +9,16 @@ import {
 import { isValidId } from '../utils/isValidId.js';
 
 export const rootController = (req, res) => {
-  res.json({ availableRoutes: ['/', '/contacts', 'contacts/:contactId'] });
+  res.json({
+    availableRoutes: ['/', '/contacts', 'contacts/:contactId'],
+    availableQueris: {
+      get: ['/', '/contacts', 'contacts/:contactId'],
+      post: ['contacts/:contactId'],
+      delete: ['contacts/:contactId'],
+      put: ['contacts/:contactId'],
+      patch: ['contacts/:contactId'],
+    },
+  });
 };
 
 export const getAllContactsController = async (req, res) => {
