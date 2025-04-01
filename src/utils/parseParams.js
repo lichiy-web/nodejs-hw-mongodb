@@ -1,3 +1,5 @@
+// eslint-disable-next-line no-unused-vars
+import { Schema } from 'mongoose';
 import { parseNumber } from './parseNumber.js';
 
 /**
