@@ -2,7 +2,7 @@ import createHttpError from 'http-errors';
 import { ContactsCollection } from '../db/models/contacts.js';
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 import { ERR_MSG } from '../constants/contacts.js';
-import { isNullable } from '../utils/isNullable.js';
+import { isDefined } from '../utils/isDefined.js';
 
 export const getAllContacts = async (
   page,
@@ -18,10 +18,10 @@ export const getAllContacts = async (
   const contactsQuery = ContactsCollection.find();
   const countQuery = ContactsCollection.find();
 
-  if (!isNullable(type)) {
+  if (isDefined(type)) {
     contactsQuery.where('contactType').equals(type);
   }
-  if (!isNullable(isFavourite)) {
+  if (isDefined(isFavourite)) {
     contactsQuery.where('isFavourite').equals(isFavourite);
   }
 
