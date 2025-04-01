@@ -1,4 +1,5 @@
 import createHttpError from 'http-errors';
+import { ERR_MSG } from '../constants/contacts.js';
 
 export const validateBody = schema => async (req, res, next) => {
   try {
@@ -7,9 +8,9 @@ export const validateBody = schema => async (req, res, next) => {
     });
     next();
   } catch (err) {
-    const error = createHttpError(400, 'Bad Request', {
+    const error = createHttpError(400, ERR_MSG[400], {
       errors: err.details,
     });
-      next(error);
-   }
+    next(error);
+  }
 };

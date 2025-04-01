@@ -6,9 +6,11 @@ import {
   getContactById,
   updateContact,
 } from '../services/contacts.js';
-import { isValidId } from '../utils/isValidId.js';
 import { ERR_MSG } from '../constants/contacts.js';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
+import { parseSortParams } from '../utils/parseSortParams.js';
+import { contactsSchema } from '../db/models/contacts.js';
+import { parseFilterParams } from '../utils/parseFilterParams.js';
 
 export const rootController = (req, res) => {
   res.json({
@@ -25,7 +27,16 @@ export const rootController = (req, res) => {
 
 export const getAllContactsController = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
-  const contacts = await getAllContacts(page, perPage);
+  const { sortBy, sortOrder } = parseSortParams(req.query, contactsSchema);
+  const filter = parseFilterParams(req.query);
+
+  const contacts = await getAllContacts(
+    page,
+    perPage,
+    sortBy,
+    sortOrder,
+    filter,
+  );
 
   res.status(200).json({
     status: 200,
@@ -36,7 +47,6 @@ export const getAllContactsController = async (req, res) => {
 
 export const getContactByIdController = async (req, res, next) => {
   const { contactId } = req.params;
-  if (!isValidId(contactId)) throw createHttpError(404, ERR_MSG[404]);
   const contact = await getContactById(contactId);
 
   if (!contact) {
@@ -62,7 +72,6 @@ export const createContactController = async (req, res, next) => {
 
 export const deleteContactController = async (req, res, next) => {
   const { contactId } = req.params;
-  if (!isValidId(contactId)) throw createHttpError(404, ERR_MSG[404]);
 
   const contact = await deleteContact(contactId);
 
@@ -75,7 +84,6 @@ export const deleteContactController = async (req, res, next) => {
 
 export const upsertContactController = async (req, res, next) => {
   const { contactId } = req.params;
-  if (!isValidId(contactId)) throw createHttpError(404, ERR_MSG[404]);
 
   const result = await updateContact(contactId, req.body, {
     upsert: true,
@@ -96,7 +104,6 @@ export const upsertContactController = async (req, res, next) => {
 
 export const patchContactController = async (req, res, next) => {
   const { contactId } = req.params;
-  if (!isValidId(contactId)) throw createHttpError(404, ERR_MSG[404]);
 
   const result = await updateContact(contactId, req.body);
 
