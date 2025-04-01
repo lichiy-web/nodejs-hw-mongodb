@@ -14,13 +14,13 @@ export const setupServer = () => {
   app.use(express.json());
   app.use(cors());
 
-  // app.use(
-  //   pinoHttp({
-  //     transport: {
-  //       target: 'pino-pretty',
-  //     },
-  //   }),
-  // );
+  app.use(
+    pinoHttp({
+      transport: {
+        target: 'pino-pretty',
+      },
+    }),
+  );
 
   app.use(contactsRouter);
 
@@ -31,7 +31,7 @@ export const setupServer = () => {
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
     if (process.env.npm_lifecycle_event === 'dev') {
-      console.dir(`http://localhost:${PORT}`);
+      console.log(`http://localhost:${PORT}`);
     }
   });
 };

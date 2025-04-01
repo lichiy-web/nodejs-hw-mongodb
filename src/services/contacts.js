@@ -2,6 +2,7 @@ import createHttpError from 'http-errors';
 import { ContactsCollection } from '../db/models/contacts.js';
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 import { ERR_MSG } from '../constants/contacts.js';
+import { isNullable } from '../utils/isNullable.js';
 
 export const getAllContacts = async (
   page,
@@ -12,32 +13,45 @@ export const getAllContacts = async (
 ) => {
   const limit = perPage;
   const skip = (page - 1) * perPage;
+  const { type, isFavourite } = filter;
 
   const contactsQuery = ContactsCollection.find();
   const countQuery = ContactsCollection.find();
 
-  if (filter.type) {
-    contactsQuery.where('contactType').equals(filter.type);
+  if (!isNullable(type)) {
+    contactsQuery.where('contactType').equals(type);
   }
-  console.log('\n\n filter.isFavourite = ', filter.isFavourite, '\n\n');
-  if (filter.isFavourite) {
-    contactsQuery.where('isFavourite').equals(filter.isFavourite);
-  }
-
-  const contactsCount = await countQuery.merge(contactsQuery).countDocuments();
-
-  const paginationData = calculatePaginationData(contactsCount, page, perPage);
-  if ((contactsCount > 0 && page < 1) || page > paginationData.totalPages) {
-    throw createHttpError(400, ERR_MSG[400], {
-      details: `The current page (${page}) must be in the following range  [1, ${paginationData.totalPages}]`,
-    });
+  if (!isNullable(isFavourite)) {
+    contactsQuery.where('isFavourite').equals(isFavourite);
   }
 
-  const contacts = await contactsQuery
-    .limit(limit)
-    .skip(skip)
-    .sort({ [sortBy]: sortOrder })
-    .exec();
+  const [paginationData, contacts] = await Promise.all([
+    countQuery
+      .merge(contactsQuery)
+      .countDocuments()
+      .then(contactsCount => {
+        const paginationData = calculatePaginationData(
+          contactsCount,
+          page,
+          perPage,
+        );
+        if (
+          contactsCount > 0 &&
+          (page < 1 || page > paginationData.totalPages)
+        ) {
+          throw createHttpError(400, ERR_MSG[400], {
+            details: `The current page (${page}) must be in the following range  [1, ${paginationData.totalPages}]`,
+          });
+        }
+        return paginationData;
+      }),
+    contactsQuery
+      .limit(limit)
+      .skip(skip)
+      .sort({ [sortBy]: sortOrder })
+      .exec(),
+  ]);
+
   return {
     data: contacts,
     ...paginationData,

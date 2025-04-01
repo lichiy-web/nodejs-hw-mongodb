@@ -1,23 +1,29 @@
 import { parseNumber } from './parseNumber.js';
 
-const parsers = new Map([
-  [String, value => value],
-  [Number, parseNumber],
-  [Boolean, value => ({ true: true, false: false }?.[value])],
-]);
+const parseValueOfType = (value, type) => {
+  if (![String, Number, Boolean].includes(type)) return;
+
+  const parsers = new Map([
+    [String, value => value],
+    [Number, parseNumber],
+    [Boolean, value => ({ true: true, false: false }?.[value])],
+  ]);
+
+  return parsers.get(type)(value);
+};
 
 export const parseParams = (param, value, schema, defaultValue) => {
-  const isString = typeof value === 'string';
+  if (typeof value !== 'string') return;
+
   const builtInType = schema.tree?.[param]?.type;
-  const parsedValue = isString && parsers.get(builtInType)(value);
-  console.log('\n\n param = ', param);
-  console.log('value = ', value);
-  console.log('parsedValue = ', parsedValue);
+  const parsedValue = parseValueOfType(value, builtInType);
   const enumValues = schema.tree?.[param]?.enum;
 
-  const result =
-    ((enumValues ? enumValues.includes(parsedValue) : true) && parsedValue) ||
-    defaultValue;
-  console.log('result = ', result, '\n\n');
+  const result = !enumValues
+    ? parsedValue
+    : enumValues.includes(parsedValue)
+    ? parsedValue
+    : defaultValue;
+
   return result;
 };
