@@ -32,11 +32,11 @@ export const parseParams = (param, value, schema, defaultValue) => {
 
   const builtInType = schema.tree?.[param]?.type;
   const parsedValue = parseValueOfType(value, builtInType);
-  const enumValues = schema.tree?.[param]?.enum;
+  const validValues = schema.tree?.[param]?.enum;
 
-  const result = !enumValues
+  const result = !validValues
     ? parsedValue
-    : enumValues.includes(parsedValue)
+    : validValues.includes(parsedValue)
     ? parsedValue
     : defaultValue;
   return result;

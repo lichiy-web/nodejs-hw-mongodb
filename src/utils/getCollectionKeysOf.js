@@ -2,7 +2,7 @@
 import { Schema } from 'mongoose';
 
 /**
- * @param {Schema} schema - a mongoose schema
+ * @param {Schema} schema - mongoose schema
  * @returns {string[]} an array of all the Mongodb collection's field names
  */
 export const getCollectionKeysOf = schema => Object.keys(schema.tree);
