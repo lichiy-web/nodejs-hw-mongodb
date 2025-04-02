@@ -16,7 +16,12 @@ export const rootController = (req, res) => {
   res.json({
     availableRoutes: ['/', '/contacts', '/contacts/:contactId'],
     availableQueries: {
-      get: ['/', '/contacts', '/contacts/:contactId'],
+      get: [
+        '/',
+        '/contacts',
+        '/contacts?page={number}&perPage={nember}&sortBy={collectionFieldName}&sortOrder={asc|desc}&type={persona|home|work}l&isFavourite={true|false}',
+        '/contacts/:contactId',
+      ],
       post: ['/contacts/:contactId'],
       delete: ['/contacts/:contactId'],
       put: ['/contacts/:contactId'],
