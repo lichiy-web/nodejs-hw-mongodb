@@ -24,7 +24,7 @@ const parseValueOfType = (value, type) => {
  * @param {string} param - a query parameter name of an http request
  * @param {string } value - an unparsed value of the appropriate query parameter
  * @param {Schema} schema - the mongoose schema of the approptiate collection
- * @param {string | number | boolean} defaultValue - the default value of the query parameter
+ * @param {string | number | boolean} [defaultValue=undefined] - the default value of the query parameter
  * @returns {string | number | boolean | undefined} a parsed parameter of an http request, can be equal to undefined if value is not a string or is not a valid value of the appropriate query parameter and the default value has been omitted
  */
 export const parseParams = (param, value, schema, defaultValue) => {
