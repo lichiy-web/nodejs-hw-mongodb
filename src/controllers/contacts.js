@@ -19,7 +19,7 @@ export const rootController = (req, res) => {
       get: [
         '/',
         '/contacts',
-        '/contacts?page={number}&perPage={nember}&sortBy={collectionFieldName}&sortOrder={asc|desc}&type={persona|home|work}l&isFavourite={true|false}',
+        '/contacts?page={number}&perPage={number}&sortBy={collectionFieldName}&sortOrder={asc|desc}&type={personal|home|work}l&isFavourite={true|false}',
         '/contacts/:contactId',
       ],
       post: ['/contacts/:contactId'],
