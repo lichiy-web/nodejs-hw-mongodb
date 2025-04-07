@@ -9,7 +9,7 @@ import {
 import { ERR_MSG } from '../constants/contacts.js';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
-import { contactsSchema } from '../db/models/contacts.js';
+import { contactsSchema } from '../db/models/Contacts.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
 
 export const rootController = (req, res) => {

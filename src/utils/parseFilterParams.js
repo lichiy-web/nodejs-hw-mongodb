@@ -1,4 +1,4 @@
-import { contactsSchema } from '../db/models/contacts.js';
+import { contactsSchema } from '../db/models/Contacts.js';
 import { parseParams } from './parseParams.js';
 
 const parseContactType = type =>

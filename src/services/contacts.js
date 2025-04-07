@@ -1,5 +1,5 @@
 import createHttpError from 'http-errors';
-import { ContactsCollection } from '../db/models/contacts.js';
+import { ContactsCollection } from '../db/models/Contacts.js';
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 import { ERR_MSG } from '../constants/contacts.js';
 import { isDefined } from '../utils/isDefined.js';
