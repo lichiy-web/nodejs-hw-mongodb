@@ -12,6 +12,9 @@ export const authenticate = async (req, res, next) => {
     );
     return;
   }
+  console.log('\n\n authHeader = ');
+  console.dir(authHeader);
+  console.log('\n\n');
 
   const [authType, accessToken] = authHeader.split(' ');
   if (authType !== 'Bearer' || !accessToken) {

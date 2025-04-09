@@ -47,11 +47,15 @@ export const refreshUserSessionController = async (req, res) => {
     refreshToken: req.cookies.refreshToken,
   });
 
+  console.log('refreshUserSessionController // before: ');
+  console.dir(res.cookies);
   setupSession(res, session);
+  console.log('refreshUserSessionController // after: ');
+  console.dir(res.cookies);
 
   res.status(200).json({
     status: 200,
     message: 'Successfully refreshed a session!',
-    data: session.accessToken,
+    data: { accessToken: session.accessToken },
   });
 };
