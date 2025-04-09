@@ -1,39 +1,23 @@
 import createHttpError from 'http-errors';
-import { UserColection } from '../db/models/User.js';
 import bcrypt from 'bcrypt';
 import { SessionCollection } from '../db/models/Session.js';
 import { PWD_HASH_SALT } from '../constants/index.js';
 import { createSession } from '../utils/createSession.js';
-
-// export const itExpiresIn = period => new Date(Date.now() + period);
-
-// const createSession = userId => {
-//   console.log(`createSession => userId: `, userId);
-//   const accessToken = randomBytes(TOKEN_LENGTH).toString('base64');
-//   const refreshToken = randomBytes(TOKEN_LENGTH).toString('base64');
-
-//   return {
-//     userId,
-//     accessToken,
-//     refreshToken,
-//     accessTokenValidUntil: itExpiresIn(ACCES_TOKEN_SHELF_LIFE),
-//     refreshTokenValidUntil: itExpiresIn(REFRESH_TOKEN_SHELF_LIFE),
-//   };
-// };
+import { UserCollection } from '../db/models/User.js';
 
 export const registerUser = async newUser => {
-  const user = await UserColection.findOne({ email: newUser.email });
+  const user = await UserCollection.findOne({ email: newUser.email });
   if (user) throw createHttpError(409, 'Email in use');
 
   const encryptedPassword = await bcrypt.hash(newUser.password, PWD_HASH_SALT);
-  return await UserColection.create({
+  return await UserCollection.create({
     ...newUser,
     password: encryptedPassword,
   });
 };
 
 export const loginUser = async credentials => {
-  const user = await UserColection.findOne({ email: credentials.email });
+  const user = await UserCollection.findOne({ email: credentials.email });
   if (!user) throw createHttpError(404, 'User not found');
 
   const isPwdMatched = await bcrypt.compare(

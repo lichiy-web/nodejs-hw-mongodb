@@ -9,7 +9,7 @@ import {
 import { ERR_MSG } from '../constants/contacts.js';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
-import { contactsSchema } from '../db/models/Contacts.js';
+import { contactSchema } from '../db/models/contact.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
 
 export const rootController = (req, res) => {
@@ -33,7 +33,7 @@ export const rootController = (req, res) => {
 export const getAllContactsController = async (req, res) => {
   const userId = req.user._id;
   const { page, perPage } = parsePaginationParams(req.query);
-  const { sortBy, sortOrder } = parseSortParams(req.query, contactsSchema);
+  const { sortBy, sortOrder } = parseSortParams(req.query, contactSchema);
   const filter = parseFilterParams(req.query);
 
   const contacts = await getAllContacts(

@@ -1,5 +1,5 @@
 import createHttpError from 'http-errors';
-import { ContactsCollection } from '../db/models/Contacts.js';
+import { ContactCollection } from '../db/models/contact.js';
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 import { ERR_MSG } from '../constants/contacts.js';
 import { isDefined } from '../utils/isDefined.js';
@@ -16,8 +16,8 @@ export const getAllContacts = async (
   const skip = (page - 1) * perPage;
   const { type, isFavourite } = filter;
 
-  const contactsQuery = ContactsCollection.find();
-  const countQuery = ContactsCollection.find();
+  const contactsQuery = ContactCollection.find();
+  const countQuery = ContactCollection.find();
 
   contactsQuery.where('userId').equals(userId);
   if (isDefined(type)) {
@@ -61,7 +61,7 @@ export const getAllContacts = async (
 };
 
 export const getContactById = async (userId, contactId) => {
-  const contact = await ContactsCollection.findOne({ userId, _id: contactId });
+  const contact = await ContactCollection.findOne({ userId, _id: contactId });
   return contact;
 };
 
@@ -70,7 +70,7 @@ export const createContact = async ({
   isFavourite = false,
   ...required
 }) => {
-  const contact = await ContactsCollection.create({
+  const contact = await ContactCollection.create({
     ...required,
     email,
     isFavourite,
@@ -80,7 +80,7 @@ export const createContact = async ({
 };
 
 export const deleteContact = async (userId, contactId) => {
-  const contact = await ContactsCollection.findOneAndDelete({
+  const contact = await ContactCollection.findOneAndDelete({
     userId,
     _id: contactId,
   });
@@ -93,7 +93,7 @@ export const updateContact = async (
   update,
   options = {},
 ) => {
-  const rawResult = await ContactsCollection.findOneAndUpdate(
+  const rawResult = await ContactCollection.findOneAndUpdate(
     { userId, _id: contactId },
     update,
     {

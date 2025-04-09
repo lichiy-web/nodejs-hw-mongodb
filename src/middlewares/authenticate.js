@@ -1,6 +1,6 @@
 import createHttpError from 'http-errors';
 import { SessionCollection } from '../db/models/Session.js';
-import { UserColection } from '../db/models/User.js';
+import { UserCollection } from '../db/models/User.js';
 
 export const authenticate = async (req, res, next) => {
   const authHeader = req.get('Authorization');
@@ -43,7 +43,7 @@ export const authenticate = async (req, res, next) => {
     return;
   }
 
-  const user = await UserColection.findById(session.userId);
+  const user = await UserCollection.findById(session.userId);
   if (!user) {
     next(
       createHttpError(401, 'Unauthorized', {
