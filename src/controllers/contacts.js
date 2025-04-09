@@ -14,7 +14,15 @@ import { parseFilterParams } from '../utils/parseFilterParams.js';
 
 export const rootController = (req, res) => {
   res.json({
-    availableRoutes: ['/', '/contacts', '/contacts/:contactId'],
+    availableRoutes: [
+      '/',
+      '/contacts',
+      '/contacts/:contactId',
+      '/auth/register',
+      '/auth/login',
+      '/auth/logout',
+      '/auth/refresh',
+    ],
     availableQueries: {
       get: [
         '/',
@@ -22,7 +30,13 @@ export const rootController = (req, res) => {
         '/contacts?page={number}&perPage={number}&sortBy={contactFieldName}&sortOrder={asc|desc}&type={personal|home|work}l&isFavourite={true|false}',
         '/contacts/:contactId',
       ],
-      post: ['/contacts/:contactId'],
+      post: [
+        '/contacts/:contactId',
+        '/auth/register',
+        '/auth/login',
+        '/auth/logout',
+        '/auth/refresh',
+      ],
       delete: ['/contacts/:contactId'],
       put: ['/contacts/:contactId'],
       patch: ['/contacts/:contactId'],
