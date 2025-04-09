@@ -31,11 +31,13 @@ export const rootController = (req, res) => {
 };
 
 export const getAllContactsController = async (req, res) => {
+  const userId = req.user._id;
   const { page, perPage } = parsePaginationParams(req.query);
   const { sortBy, sortOrder } = parseSortParams(req.query, contactsSchema);
   const filter = parseFilterParams(req.query);
 
   const contacts = await getAllContacts(
+    userId,
     page,
     perPage,
     sortBy,
@@ -51,8 +53,9 @@ export const getAllContactsController = async (req, res) => {
 };
 
 export const getContactByIdController = async (req, res, next) => {
+  const userId = req.user._id;
   const { contactId } = req.params;
-  const contact = await getContactById(contactId);
+  const contact = await getContactById(userId, contactId);
 
   if (!contact) {
     throw createHttpError(404, ERR_MSG[404]);
@@ -66,9 +69,6 @@ export const getContactByIdController = async (req, res, next) => {
 };
 
 export const createContactController = async (req, res, next) => {
-  console.log('createContactController => user: ');
-  console.dir(req.user);
-
   const contact = await createContact({ userId: req.user._id, ...req.body });
 
   res.status(201).json({
@@ -79,9 +79,10 @@ export const createContactController = async (req, res, next) => {
 };
 
 export const deleteContactController = async (req, res, next) => {
+  const userId = req.user._id;
   const { contactId } = req.params;
 
-  const contact = await deleteContact(contactId);
+  const contact = await deleteContact(userId, contactId);
 
   if (!contact) {
     throw createHttpError(404, ERR_MSG[404]);
@@ -91,9 +92,10 @@ export const deleteContactController = async (req, res, next) => {
 };
 
 export const upsertContactController = async (req, res, next) => {
+  const userId = req.user._id;
   const { contactId } = req.params;
 
-  const result = await updateContact(contactId, req.body, {
+  const result = await updateContact(userId, contactId, req.body, {
     upsert: true,
   });
 
@@ -111,9 +113,10 @@ export const upsertContactController = async (req, res, next) => {
 };
 
 export const patchContactController = async (req, res, next) => {
+  const userId = req.user._id;
   const { contactId } = req.params;
 
-  const result = await updateContact(contactId, req.body);
+  const result = await updateContact(userId, contactId, req.body);
 
   if (!result) {
     throw createHttpError(404, ERR_MSG[404]);

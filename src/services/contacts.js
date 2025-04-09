@@ -5,6 +5,7 @@ import { ERR_MSG } from '../constants/contacts.js';
 import { isDefined } from '../utils/isDefined.js';
 
 export const getAllContacts = async (
+  userId,
   page,
   perPage,
   sortBy,
@@ -18,6 +19,7 @@ export const getAllContacts = async (
   const contactsQuery = ContactsCollection.find();
   const countQuery = ContactsCollection.find();
 
+  contactsQuery.where('userId').equals(userId);
   if (isDefined(type)) {
     contactsQuery.where('contactType').equals(type);
   }
@@ -58,8 +60,8 @@ export const getAllContacts = async (
   };
 };
 
-export const getContactById = async contactId => {
-  const contact = await ContactsCollection.findById(contactId);
+export const getContactById = async (userId, contactId) => {
+  const contact = await ContactsCollection.findOne({ userId, _id: contactId });
   return contact;
 };
 
@@ -77,15 +79,23 @@ export const createContact = async ({
   return contact;
 };
 
-export const deleteContact = async contactId => {
-  const contact = await ContactsCollection.findOneAndDelete({ _id: contactId });
+export const deleteContact = async (userId, contactId) => {
+  const contact = await ContactsCollection.findOneAndDelete({
+    userId,
+    _id: contactId,
+  });
   return contact;
 };
 
-export const updateContact = async (contactId, payload, options = {}) => {
+export const updateContact = async (
+  userId,
+  contactId,
+  update,
+  options = {},
+) => {
   const rawResult = await ContactsCollection.findOneAndUpdate(
-    { _id: contactId },
-    payload,
+    { userId, _id: contactId },
+    update,
     {
       new: true,
       includeResultMetadata: true,
