@@ -6,8 +6,11 @@ export const SORT_ORDER = {
 export const NAME_MIN_LENGTH = 3;
 export const NAME_MAX_LENGTH = 20;
 
-export const FIFTEEN_MINUTES = 15 * 60 * 1000;
-export const ONE_DAY = 24 * 60 * 60 * 1000;
+export const PWD_HASH_SALT = 10;
+export const TOKEN_LENGTH = 30;
 
-export const ACCES_TOKEN_SHELF_LIFE = FIFTEEN_MINUTES;
+export const ONE_MINUTE = 60 * 1000;
+export const ONE_DAY = 24 * 60 * ONE_MINUTE;
+
+export const ACCES_TOKEN_SHELF_LIFE = 15 * ONE_MINUTE;
 export const REFRESH_TOKEN_SHELF_LIFE = 30 * ONE_DAY;

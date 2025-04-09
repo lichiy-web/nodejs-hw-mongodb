@@ -33,7 +33,7 @@ export const setupServer = () => {
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
     if (process.env.npm_lifecycle_event === 'dev') {
-      console.log(`http://localhost:${PORT}`);
+      console.dir(`http://localhost:${PORT}`);
     }
   });
 };
