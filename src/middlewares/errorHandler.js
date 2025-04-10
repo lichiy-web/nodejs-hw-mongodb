@@ -1,4 +1,5 @@
 import { HttpError } from 'http-errors';
+import { RES_MSG } from '../constants/contacts.js';
 
 export const errorHandler = async (err, req, res, next) => {
   if (err instanceof HttpError) {
@@ -12,7 +13,7 @@ export const errorHandler = async (err, req, res, next) => {
 
   res.status(500).json({
     status: 500,
-    message: 'Something went wrong',
+    message: RES_MSG[500].default,
     data: err.message,
   });
 };

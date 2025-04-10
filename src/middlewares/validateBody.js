@@ -1,5 +1,5 @@
 import createHttpError from 'http-errors';
-import { ERR_MSG } from '../constants/contacts.js';
+import { RES_MSG } from '../constants/contacts.js';
 
 export const validateBody = schema => async (req, res, next) => {
   try {
@@ -10,7 +10,7 @@ export const validateBody = schema => async (req, res, next) => {
   } catch (err) {
     const errStatus =
       err?.errType === 'User registration: invalid email' ? 401 : 400;
-    const error = createHttpError(errStatus, ERR_MSG[errStatus], {
+    const error = createHttpError(errStatus, RES_MSG[errStatus].default, {
       errors: err.details,
     });
     next(error);

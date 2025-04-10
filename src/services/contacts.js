@@ -1,7 +1,7 @@
 import createHttpError from 'http-errors';
 import { ContactCollection } from '../db/models/contact.js';
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
-import { ERR_MSG } from '../constants/contacts.js';
+import { RES_MSG } from '../constants/contacts.js';
 import { isDefined } from '../utils/isDefined.js';
 
 export const getAllContacts = async (
@@ -41,7 +41,7 @@ export const getAllContacts = async (
           contactsCount > 0 &&
           (page < 1 || page > paginationData.totalPages)
         ) {
-          throw createHttpError(400, ERR_MSG[400], {
+          throw createHttpError(400, RES_MSG[400].default, {
             details: `The current page (${page}) must be in the following range  [1, ${paginationData.totalPages}]`,
           });
         }

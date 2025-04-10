@@ -1,3 +1,4 @@
+import { RES_MSG } from '../constants/contacts.js';
 import {
   loginUser,
   logoutUser,
@@ -11,7 +12,7 @@ export const registerUserController = async (req, res) => {
 
   res.status(201).json({
     status: 201,
-    message: 'Successfully registered an user!',
+    message: RES_MSG[201].registerUser,
     data: newUser,
   });
 };
@@ -23,7 +24,7 @@ export const loginUserController = async (req, res) => {
 
   res.json({
     status: 200,
-    message: 'Successfully logged in an user!',
+    message: RES_MSG[200].loginUser,
     data: {
       accessToken: session.accessToken,
     },
@@ -52,7 +53,7 @@ export const refreshUserSessionController = async (req, res) => {
 
   res.status(200).json({
     status: 200,
-    message: 'Successfully refreshed a session!',
+    message: RES_MSG[200].refreshUserSession,
     data: { accessToken: session.accessToken },
   });
 };

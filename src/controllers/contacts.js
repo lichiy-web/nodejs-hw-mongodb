@@ -6,7 +6,7 @@ import {
   getContactById,
   updateContact,
 } from '../services/contacts.js';
-import { ERR_MSG } from '../constants/contacts.js';
+import { RES_MSG } from '../constants/contacts.js';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { contactSchema } from '../db/models/contact.js';
@@ -62,7 +62,7 @@ export const getAllContactsController = async (req, res) => {
   res.status(200).json({
     status: 200,
     data: contacts,
-    message: 'Successfully found contacts!',
+    message: RES_MSG[200].getAllContacts,
   });
 };
 
@@ -72,22 +72,24 @@ export const getContactByIdController = async (req, res, next) => {
   const contact = await getContactById(userId, contactId);
 
   if (!contact) {
-    throw createHttpError(404, ERR_MSG[404]);
+    throw createHttpError(404, RES_MSG[404].noContact);
   }
 
   res.status(200).json({
     status: 200,
     data: contact,
-    message: `Successfully found contact with id ${contactId} !`,
+    message: `${RES_MSG[200].getContactById} ${contactId}`,
   });
 };
 
 export const createContactController = async (req, res, next) => {
   const contact = await createContact({ userId: req.user._id, ...req.body });
 
+  console.log(`RES_MSG[201].createContact = ${RES_MSG[201].createContact}`);
+
   res.status(201).json({
     status: 201,
-    message: 'Successfully created a contact!',
+    message: RES_MSG[201].createContact,
     data: contact,
   });
 };
@@ -99,7 +101,7 @@ export const deleteContactController = async (req, res, next) => {
   const contact = await deleteContact(userId, contactId);
 
   if (!contact) {
-    throw createHttpError(404, ERR_MSG[404]);
+    throw createHttpError(404, RES_MSG[404].noContact);
   }
 
   res.status(204).send();
@@ -114,14 +116,14 @@ export const upsertContactController = async (req, res, next) => {
   });
 
   if (!result) {
-    throw createHttpError(404, ERR_MSG[404]);
+    throw createHttpError(404, RES_MSG[404].noContact);
   }
 
   const status = result.isNew ? 201 : 200;
 
   res.status(status).json({
     status,
-    message: `Successfully upserted a contact!`,
+    message: RES_MSG[status].upsertContact,
     data: result.contact,
   });
 };
@@ -133,12 +135,12 @@ export const patchContactController = async (req, res, next) => {
   const result = await updateContact(userId, contactId, req.body);
 
   if (!result) {
-    throw createHttpError(404, ERR_MSG[404]);
+    throw createHttpError(404, RES_MSG[404].noContact);
   }
 
   res.json({
     status: 200,
-    message: `Successfully patched a contact!`,
+    message: RES_MSG[200].patchContact,
     data: result.contact,
   });
 };

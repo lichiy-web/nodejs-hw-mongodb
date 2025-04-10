@@ -1,26 +1,24 @@
 import createHttpError from 'http-errors';
 import { SessionCollection } from '../db/models/Session.js';
 import { UserCollection } from '../db/models/User.js';
+import { RES_MSG } from '../constants/contacts.js';
 
 export const authenticate = async (req, res, next) => {
   const authHeader = req.get('Authorization');
   if (!authHeader) {
     next(
-      createHttpError(401, 'Unauthorized', {
-        details: 'Please provide Authorization header',
+      createHttpError(401, RES_MSG[401].default, {
+        details: RES_MSG[401].noAuthHeader,
       }),
     );
     return;
   }
-  console.log('\n\n authHeader = ');
-  console.dir(authHeader);
-  console.log('\n\n');
 
   const [authType, accessToken] = authHeader.split(' ');
   if (authType !== 'Bearer' || !accessToken) {
     next(
-      createHttpError(401, 'Unauthorized', {
-        details: 'Auth header should be of type Bearer',
+      createHttpError(401, RES_MSG[401].default, {
+        details: RES_MSG[401].notBearer,
       }),
     );
     return;
@@ -29,8 +27,8 @@ export const authenticate = async (req, res, next) => {
   const session = await SessionCollection.findOne({ accessToken });
   if (!session) {
     next(
-      createHttpError(401, 'Unauthorized', {
-        details: 'Session not found',
+      createHttpError(401, RES_MSG[401].default, {
+        details: RES_MSG[401].noSession,
       }),
     );
     return;
@@ -39,8 +37,8 @@ export const authenticate = async (req, res, next) => {
   const isSessionExpired = new Date() > new Date(session.accessTokenValidUntil);
   if (isSessionExpired) {
     next(
-      createHttpError(401, 'Unauthorized', {
-        details: 'Access token expired',
+      createHttpError(401, RES_MSG[401].default, {
+        details: RES_MSG[401].accessTokenExpired,
       }),
     );
     return;
@@ -49,8 +47,8 @@ export const authenticate = async (req, res, next) => {
   const user = await UserCollection.findById(session.userId);
   if (!user) {
     next(
-      createHttpError(401, 'Unauthorized', {
-        details: 'User not found',
+      createHttpError(401, RES_MSG[401].default, {
+        details: RES_MSG[401].noUser,
       }),
     );
     return;
