@@ -8,7 +8,9 @@ export const validateBody = schema => async (req, res, next) => {
     });
     next();
   } catch (err) {
-    const error = createHttpError(400, ERR_MSG[400], {
+    const errStatus =
+      err?.errType === 'User registration: invalid email' ? 401 : 400;
+    const error = createHttpError(errStatus, ERR_MSG[errStatus], {
       errors: err.details,
     });
     next(error);
