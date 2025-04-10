@@ -66,6 +66,7 @@ export const getContactById = async (userId, contactId) => {
 };
 
 export const createContact = async ({
+  userId,
   email = null,
   isFavourite = false,
   ...required
@@ -74,6 +75,7 @@ export const createContact = async ({
     ...required,
     email,
     isFavourite,
+    userId,
   });
 
   return contact;
