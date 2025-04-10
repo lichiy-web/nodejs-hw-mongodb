@@ -5,10 +5,7 @@ import {
 } from '../../db/initMongoConnection.js';
 import { UserCollection } from '../../db/models/User.js';
 import { ContactCollection, contactSchema } from '../../db/models/contact.js';
-
-const rndRange = (max, min = 0) => {
-  return Math.round(min + Math.random() * (max - min + 1) - 0.5);
-};
+import { rndRange } from '../rndRange.js';
 
 export class Contact {
   constructor(userId, schema) {
