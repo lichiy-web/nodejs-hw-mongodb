@@ -5,8 +5,8 @@ import { parseNumber } from './parseNumber.js';
 /**
  * Method casts a string passed as a value parameter to primitive data type of the appropriate constructor passed as a type parameter if possible, if not method returns undefined.
  * @param {string} value - a string of primitive data type to parse
- * @param {String | Number | Boolean} type - build-in constructor of the appropriate primitive data type
- * @returns {string | number | boolean | undefined}
+ * @param {String | Number | Boolean | Date} type - build-in constructor of the appropriate primitive data type
+ * @returns {string | number | boolean | undefined | date}
  */
 const parseValueOfType = (value, type) => {
   if (![String, Number, Boolean].includes(type)) return;
@@ -15,6 +15,13 @@ const parseValueOfType = (value, type) => {
     [String, value => value],
     [Number, parseNumber],
     [Boolean, value => ({ true: true, false: false }?.[value])],
+    [
+      Date,
+      value =>
+        new Date(value).toString() === 'Invalid Date'
+          ? undefined
+          : new Date(value),
+    ],
   ]);
 
   return parsers.get(type)(value);

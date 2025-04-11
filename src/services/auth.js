@@ -4,6 +4,7 @@ import { SessionCollection } from '../db/models/Session.js';
 import { PWD_HASH_SALT } from '../constants/index.js';
 import { createSession } from '../utils/createSession.js';
 import { UserCollection } from '../db/models/User.js';
+import { RES_MSG } from '../constants/contacts.js';
 
 export const registerUser = async newUser => {
   const user = await UserCollection.findOne({ email: newUser.email });
@@ -18,13 +19,13 @@ export const registerUser = async newUser => {
 
 export const loginUser = async credentials => {
   const user = await UserCollection.findOne({ email: credentials.email });
-  if (!user) throw createHttpError(404, 'User not found');
+  if (!user) throw createHttpError(401, RES_MSG[401].default);
 
   const isPwdMatched = await bcrypt.compare(
     credentials.password,
     user.password,
   );
-  if (!isPwdMatched) throw createHttpError(401, 'Unauthorized');
+  if (!isPwdMatched) throw createHttpError(401, RES_MSG[401].default);
 
   await SessionCollection.deleteOne({ userId: user._id });
   const newSession = createSession(user._id);
@@ -41,16 +42,16 @@ export const refreshUserSession = async ({ sessionId, refreshToken }) => {
   });
 
   if (!session)
-    throw createHttpError(401, 'Unauthorized', {
-      details: `Session not found`,
+    throw createHttpError(401, RES_MSG[401].default, {
+      details: RES_MSG[401].noSession,
     });
 
-  const isSessionTokenExpired =
+  const isRefreshTokenExpired =
     new Date() > new Date(session.refreshTokenValidUntil);
 
-  if (isSessionTokenExpired)
-    throw createHttpError(401, 'Unauthorized', {
-      details: `Session token expired`,
+  if (isRefreshTokenExpired)
+    throw createHttpError(401, RES_MSG[401].default, {
+      details: RES_MSG[401].refreshTokenExpired,
     });
 
   const newSession = createSession(session.userId);

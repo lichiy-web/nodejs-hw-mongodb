@@ -23,6 +23,7 @@ export const RES_MSG = {
     notBearer: 'Auth header should be of type Bearer',
     noAuthHeader: 'Please provide Authorization header',
     accessTokenExpired: 'Access token expired',
+    refreshTokenExpired: 'Refresh token expired',
   },
   404: {
     default: 'Rout not found',
