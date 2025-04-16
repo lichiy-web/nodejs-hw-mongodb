@@ -1,3 +1,5 @@
+import path from 'node:path';
+
 export const SORT_ORDER = {
   ASC: 'asc',
   DESC: 'desc',
@@ -14,3 +16,13 @@ export const ONE_DAY = 24 * 60 * ONE_MINUTE;
 
 export const ACCES_TOKEN_SHELF_LIFE = 15 * ONE_MINUTE;
 export const REFRESH_TOKEN_SHELF_LIFE = 30 * ONE_DAY;
+
+export const SMTP = {
+  HOST: 'SMTP_HOST',
+  PORT: 'SMTP_PORT',
+  USER: 'SMTP_USER',
+  PASSWORD: 'SMTP_PASSWORD',
+  FROM: 'SMTP_FROM',
+};
+
+export const TEMPLATES_DIR = path.resolve('src', 'templates');

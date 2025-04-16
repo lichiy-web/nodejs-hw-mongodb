@@ -7,6 +7,8 @@ export const RES_MSG = {
     patchContact: 'Successfully patched a contact',
     loginUser: 'Successfully logged in an user!',
     refreshUserSession: 'Successfully refreshed a session',
+    sendResetEmail: 'Reset password email has been successfully sent.',
+    resetPwd: 'Password has been successfully reset.',
   },
   201: {
     default: 'Successfully created',
@@ -24,10 +26,12 @@ export const RES_MSG = {
     noAuthHeader: 'Please provide Authorization header',
     accessTokenExpired: 'Access token expired',
     refreshTokenExpired: 'Refresh token expired',
+    badResetToken: 'Token is expired or invalid.',
   },
   404: {
-    default: 'Rout not found',
-    noContact: 'Contact not found',
+    default: 'Rout not found!',
+    noContact: 'Contact not found!',
+    noUser: 'User not found!',
   },
   500: { default: 'Something went wrong' },
 };
