@@ -25,6 +25,7 @@ export const rootController = (req, res) => {
       '/auth/refresh',
       '/send-reset-email',
       '/reset-pwd',
+      '/uploads',
     ],
     availableQueries: {
       get: [
@@ -32,6 +33,7 @@ export const rootController = (req, res) => {
         '/contacts',
         '/contacts?page={number}&perPage={number}&sortBy={contactFieldName}&sortOrder={asc|desc}&type={personal|home|work}l&isFavourite={true|false}',
         '/contacts/:contactId',
+        '/uploads',
       ],
       post: [
         '/contacts/:contactId',
