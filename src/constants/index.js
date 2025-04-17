@@ -10,6 +10,7 @@ export const NAME_MAX_LENGTH = 20;
 
 export const PWD_HASH_SALT = 10;
 export const TOKEN_LENGTH = 30;
+export const UNIQUE_SUFFIX_LENGTN = 16;
 
 export const ONE_MINUTE = 60 * 1000;
 export const ONE_DAY = 24 * 60 * ONE_MINUTE;

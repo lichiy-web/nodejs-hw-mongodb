@@ -11,6 +11,7 @@ import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { contactSchema } from '../db/models/contact.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
+import { saveFileAndGetUrl } from '../utils/saveFileAndGetUrl.js';
 
 export const rootController = (req, res) => {
   res.json({
@@ -22,6 +23,8 @@ export const rootController = (req, res) => {
       '/auth/login',
       '/auth/logout',
       '/auth/refresh',
+      '/send-reset-email',
+      '/reset-pwd',
     ],
     availableQueries: {
       get: [
@@ -36,6 +39,8 @@ export const rootController = (req, res) => {
         '/auth/login',
         '/auth/logout',
         '/auth/refresh',
+        '/send-reset-email',
+        '/reset-pwd',
       ],
       delete: ['/contacts/:contactId'],
       put: ['/contacts/:contactId'],
@@ -83,7 +88,12 @@ export const getContactByIdController = async (req, res, next) => {
 };
 
 export const createContactController = async (req, res, next) => {
-  const contact = await createContact({ userId: req.user._id, ...req.body });
+  const photoUrl = await saveFileAndGetUrl(req.file);
+  const contact = await createContact({
+    userId: req.user._id,
+    ...req.body,
+    photo: photoUrl,
+  });
 
   res.status(201).json({
     status: 201,
@@ -129,8 +139,19 @@ export const upsertContactController = async (req, res, next) => {
 export const patchContactController = async (req, res, next) => {
   const userId = req.user._id;
   const { contactId } = req.params;
+  // const photo = req.file;
 
-  const result = await updateContact(userId, contactId, req.body);
+  // const photoUrl =
+  //   photo && getEnvVar('ENABLE_CLOUDINARY') === 'true'
+  //     ? await saveFileToCloudinary(photo)
+  //     : await saveFileToUploadDir(photo);
+
+  const photoUrl = await saveFileAndGetUrl(req.file);
+
+  const result = await updateContact(userId, contactId, {
+    ...req.body,
+    photo: photoUrl,
+  });
 
   if (!result) {
     throw createHttpError(404, RES_MSG[404].noContact);

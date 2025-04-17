@@ -3,6 +3,7 @@ import { ContactCollection } from '../db/models/contact.js';
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 import { RES_MSG } from '../constants/contacts.js';
 import { isDefined } from '../utils/isDefined.js';
+import { deleteFileFromStorage } from '../utils/deleteFileFromStorage.js';
 
 export const getAllContacts = async (
   userId,
@@ -86,6 +87,7 @@ export const deleteContact = async (userId, contactId) => {
     userId,
     _id: contactId,
   });
+  if (contact.photo) await deleteFileFromStorage(contact.photo);
   return contact;
 };
 
