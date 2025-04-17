@@ -71,7 +71,7 @@ export const getAllContactsController = async (req, res) => {
   });
 };
 
-export const getContactByIdController = async (req, res, next) => {
+export const getContactByIdController = async (req, res) => {
   const userId = req.user._id;
   const { contactId } = req.params;
   const contact = await getContactById(userId, contactId);
@@ -87,7 +87,7 @@ export const getContactByIdController = async (req, res, next) => {
   });
 };
 
-export const createContactController = async (req, res, next) => {
+export const createContactController = async (req, res) => {
   const photoUrl = await saveFileAndGetUrl(req.file);
   const contact = await createContact({
     userId: req.user._id,
@@ -102,7 +102,7 @@ export const createContactController = async (req, res, next) => {
   });
 };
 
-export const deleteContactController = async (req, res, next) => {
+export const deleteContactController = async (req, res) => {
   const userId = req.user._id;
   const { contactId } = req.params;
 
@@ -115,7 +115,7 @@ export const deleteContactController = async (req, res, next) => {
   res.status(204).send();
 };
 
-export const upsertContactController = async (req, res, next) => {
+export const upsertContactController = async (req, res) => {
   const userId = req.user._id;
   const { contactId } = req.params;
 
@@ -136,18 +136,11 @@ export const upsertContactController = async (req, res, next) => {
   });
 };
 
-export const patchContactController = async (req, res, next) => {
+export const patchContactController = async (req, res) => {
   const userId = req.user._id;
   const { contactId } = req.params;
-  // const photo = req.file;
-
-  // const photoUrl =
-  //   photo && getEnvVar('ENABLE_CLOUDINARY') === 'true'
-  //     ? await saveFileToCloudinary(photo)
-  //     : await saveFileToUploadDir(photo);
 
   const photoUrl = await saveFileAndGetUrl(req.file);
-
   const result = await updateContact(userId, contactId, {
     ...req.body,
     photo: photoUrl,

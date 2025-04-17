@@ -97,6 +97,13 @@ export const updateContact = async (
   update,
   options = {},
 ) => {
+  if (update.photo) {
+    const { photo: oldPhoto } = await ContactCollection.findOne({
+      userId,
+      _id: contactId,
+    });
+    deleteFileFromStorage(oldPhoto);
+  }
   const rawResult = await ContactCollection.findOneAndUpdate(
     { userId, _id: contactId },
     update,

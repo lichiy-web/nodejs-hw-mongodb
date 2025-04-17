@@ -4,6 +4,7 @@ import { deleteFileFromCloudinary } from './manageFileOnCloudinary.js';
 import { deleteFileFromUploadDir } from './manageFileOnUploadDir.js';
 
 export const deleteFileFromStorage = fileUrl =>
-  fileUrl.includes(getEnvVar(CLOUDINARY.CLOUD_NAME))
+  fileUrl &&
+  (fileUrl.includes(getEnvVar(CLOUDINARY.CLOUD_NAME))
     ? deleteFileFromCloudinary(fileUrl)
-    : deleteFileFromUploadDir(fileUrl);
+    : deleteFileFromUploadDir(fileUrl));
