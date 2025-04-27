@@ -1,4 +1,6 @@
-description: Successfully found the contact by its id.
+description:
+  Successfully created a contact! Response contains the json object with data of
+  the new contact.
 content:
   application/json:
     schema:
@@ -10,11 +12,10 @@ content:
       properties:
         status:
           type: integer
-          example: 200
+          example: 201
         message:
           type: string
-          example:
-            'Successfully found a contact with id: 67f6381e907fe15ef69f1df0'
+          example: Successfully created a contact!
         data:
           type: object
           $ref: ../schemas/contact.yaml

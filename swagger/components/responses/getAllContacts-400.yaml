@@ -1,0 +1,25 @@
+description: Wrong query parameters
+content:
+  application/json:
+    schema:
+      type: object
+      required:
+        - status
+        - message
+        - data
+      properties:
+        status:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: 'Bad request'
+        data:
+          type: object
+          required:
+            - message
+          properties:
+            message:
+              type: string
+              example:
+                'The current page (5) must be in the following range [1, 4]'

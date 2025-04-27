@@ -1,0 +1,53 @@
+tags:
+  - Contacts
+summary: Get a list of the user's contacts
+operationId: getAllContacts
+description:
+  'Get **an array** of objects representing **the contacts** created by the
+  user. </br> Use **filters** as query parameters to narrow down the server
+  response. </br> **Sort** response by the specific parameter in ascending or
+  descending order. </br> Use **pagination** by passing the page number and
+  number of contacts per page in the query parameters.'
+security:
+  - bearerAuth: []
+parameters:
+  - in: query
+    name: page
+    schema:
+      type: integer
+    example: 1
+  - in: query
+    name: perPage
+    schema:
+      type: integer
+      example: 10
+  - in: query
+    name: sortBy
+    schema:
+      type: string
+      example: 'name'
+    description: "All contacts's fields can be mentioned. Default value - _id"
+  - in: query
+    name: sortOrder
+    schema:
+      type: string
+      enum: ['asc', 'desc']
+      example: 'asc'
+  - in: query
+    name: contactType
+    schema:
+      type: string
+      enum: ['work', 'home', 'personal']
+      example: home
+  - in: query
+    name: isFavourite
+    schema:
+      type: boolean
+      example: true
+responses:
+  '200':
+    $ref: ../../components/responses/getAllContacts-200.yaml
+  '400':
+    $ref: ../../components/responses/getAllContacts-400.yaml
+  '401':
+    $ref: ../../components/responses/401.yaml

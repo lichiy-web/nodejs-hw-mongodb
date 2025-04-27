@@ -1,0 +1,54 @@
+description:
+  Found all contacts using pagination, filter and sort query parameters.
+content:
+  application/json:
+    schema:
+      type: object
+      required:
+        - status
+        - message
+        - data
+      properties:
+        status:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: Successfully found the contacts!
+        data:
+          type: object
+          required:
+            - data
+            - page
+            - perPage
+            - totalItems
+            - totalPages
+            - hasPreviousPage
+            - hasNextPage
+          properties:
+            data:
+              type: array
+              items:
+                $ref: ../schemas/contact.yaml
+            page:
+              type: integer
+              minimum: 1
+              example: 1
+            perPage:
+              type: integer
+              minimum: 1
+              example: 10
+            totalItems:
+              type: integer
+              minimum: 0
+              example: 50
+            totalPages:
+              type: integer
+              minimum: 0
+              example: 5
+            hasPreviousPage:
+              type: boolean
+              example: false
+            hasNextPage:
+              type: boolean
+              example: true

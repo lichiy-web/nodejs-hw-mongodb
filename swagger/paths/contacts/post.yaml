@@ -1,0 +1,28 @@
+tags:
+  - Contacts
+summary: Create a new contact
+operationId: createContact
+description:
+  '**Create** a new contact. Request contains **a body** as a json object with
+  data of the new contact.'
+security:
+  - bearerAuth: []
+requestBody:
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        required:
+          - name
+          - phoneNumber
+          - contactType
+        properties:
+          $ref: ../../components/schemas/commonContactProperties.yaml
+
+responses:
+  '201':
+    $ref: ../../components/responses/createContact-201.yaml
+  '400':
+    $ref: ../../components/responses/createContact-400.yaml
+  '401':
+    $ref: ../../components/responses/401.yaml

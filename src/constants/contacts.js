@@ -2,13 +2,13 @@ export const RES_MSG = {
   200: {
     default: 'OK',
     getContactById: 'Successfully found a contact with id:',
-    getAllContacts: 'Successfully found the contacts',
-    upsertContact: 'Successfully updated a contact',
-    patchContact: 'Successfully patched a contact',
+    getAllContacts: 'Successfully found the contacts!',
+    upsertContact: 'Successfully updated a contact!',
+    patchContact: 'Successfully patched a contact!',
     loginUser: 'Successfully logged in an user!',
-    refreshUserSession: 'Successfully refreshed a session',
+    refreshUserSession: 'Successfully refreshed a session!',
     sendResetEmail: 'Reset password email has been successfully sent.',
-    resetPwd: 'Password has been successfully reset.',
+    resetPwd: 'Password has been successfully reset!',
   },
   201: {
     default: 'Successfully created',

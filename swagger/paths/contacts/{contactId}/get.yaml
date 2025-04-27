@@ -3,7 +3,7 @@ tags:
 summary: Get a contact by its id
 operationId: getContactById
 description:
-  'Get an object representing a **contact** by its **id** passed as an url
+  'Get an object representing the **contact** by its **id** passed as an url
   parameter [/contacts/:contactId](/contacts/:contactId). </br> Parameter
   **contactId** must be a valid id: 24 hexadecimal symbols.'
 security:
@@ -18,3 +18,7 @@ parameters:
 responses:
   '200':
     $ref: ../../../components/responses/getContactById-200.yaml
+  '404':
+    $ref: ../../../components/responses/getContactById-404.yaml
+  '401':
+    $ref: ../../../components/responses/401.yaml
