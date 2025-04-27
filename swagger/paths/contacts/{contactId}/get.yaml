@@ -1,0 +1,20 @@
+tags:
+  - Contacts
+summary: Get a contact by its id
+operationId: getContactById
+description:
+  'Get an object representing a **contact** by its **id** passed as an url
+  parameter [/contacts/:contactId](/contacts/:contactId). </br> Parameter
+  **contactId** must be a valid id: 24 hexadecimal symbols.'
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: contactId
+    required: true
+    schema:
+      type: string
+      example: '67f6381e907fe15ef69f1df0'
+responses:
+  '200':
+    $ref: ../../../components/responses/getContactById-200.yaml
