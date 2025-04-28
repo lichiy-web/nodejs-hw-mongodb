@@ -1,0 +1,38 @@
+tags:
+  - Contacts
+summary: Upsert a contact.
+operationId: upsertContact
+description:
+  "**Update** existing contact or **create** the new one if it's absent in the
+  database. Request contains **a body** as a **json** object with contact update
+  data or **multipart/formdata** body that can contain avatar image"
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: contactId
+    required: true
+    schema:
+      type: string
+      example: '67f6381e907fe15ef69f1df0'
+requestBody:
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        required:
+          - name
+          - phoneNumber
+          - contactType
+        properties:
+          $ref: ../../../components/schemas/commonContactProperties.yaml
+
+responses:
+  '200':
+    $ref: ../../../components/responses/putContact-200.yaml
+  '201':
+    $ref: ../../../components/responses/createContact-201.yaml
+  '400':
+    $ref: ../../../components/responses/createContact-400.yaml
+  '401':
+    $ref: ../../../components/responses/401.yaml

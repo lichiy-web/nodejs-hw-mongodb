@@ -1,0 +1,21 @@
+description:
+  Successfully patched a contact! Response contains the json object with data of
+  the patched contact.
+content:
+  application/json:
+    schema:
+      type: object
+      required:
+        - status
+        - message
+        - data
+      properties:
+        status:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: Successfully patched a contact!
+        data:
+          type: object
+          $ref: ../schemas/contact.yaml

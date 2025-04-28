@@ -1,0 +1,34 @@
+tags:
+  - Contacts
+summary: Patch existing contact
+operationId: patchContact
+description:
+  '**Patch** existing contact by its id. Request contains **a body** as a
+  **json** object with contact update data or **multipart/formdata** body that
+  can contain avatar image'
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: contactId
+    required: true
+    schema:
+      type: string
+      example: '67f6381e907fe15ef69f1df0'
+requestBody:
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        properties:
+          $ref: ../../../components/schemas/commonContactProperties.yaml
+
+responses:
+  '200':
+    $ref: ../../../components/responses/patchContact-200.yaml
+  '400':
+    $ref: ../../../components/responses/createContact-400.yaml
+  '401':
+    $ref: ../../../components/responses/401.yaml
+  '404':
+    $ref: ../../../components/responses/getContactById-404.yaml

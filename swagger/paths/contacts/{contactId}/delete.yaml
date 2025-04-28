@@ -1,0 +1,24 @@
+tags:
+  - Contacts
+summary: Delete the user's contact by its id
+operationId: deleteContact
+description:
+  '**Delete** an object representing the **contact** by its **id** passed as an
+  url parameter [/contacts/:contactId](/contacts/:contactId). </br> Parameter
+  **contactId** must be a valid id: 24 hexadecimal symbols.'
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: contactId
+    required: true
+    schema:
+      type: string
+      example: '67f6381e907fe15ef69f1df0'
+responses:
+  '204':
+    description: The contact has deleted successfully.
+  '401':
+    $ref: ../../../components/responses/401.yaml
+  '404':
+    $ref: ../../../components/responses/getContactById-404.yaml
