@@ -4,18 +4,66 @@ description:
 content:
   application/json:
     schema:
-      type: object
-      required:
-        - status
-        - message
-        - data
-      properties:
-        status:
-          type: integer
-          example: 201
-        message:
-          type: string
-          example: Successfully created a contact!
-        data:
-          type: object
-          $ref: ../schemas/contact.yaml
+      oneOf:
+        - type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: Successfully created a contact!
+            data:
+              $ref: ../schemas/contactResponseForFormData.yaml
+        - type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: Successfully created a contact!
+            data:
+              $ref: ../schemas/contactResponseForJson.yaml
+    examples:
+      contactResponseForJson:
+        summary: Contact data as a response for a request with a json body.
+        value:
+          status: 201
+          message: Successfully created a contact!
+          data:
+            _id: 67f6381e907fe15ef69f1df0
+            userId: 67f6364eeba7c0aedb007d73
+            name: 'John Snow'
+            phoneNumber: '+380501234567'
+            email: john.snow@winterfell.com
+            isFavourite: false
+            contactType: personal
+            createdAt: '2025-03-12T11:05:45.532+00:00'
+            updatedAt: '2025-04-09T09:04:31.812+00:00'
+      contactResponseForFormData:
+        summary:
+          Contact data as a response for a request with a multipart/form-data
+          body.
+        value:
+          status: 201
+          message: Successfully created a contact!
+          data:
+            _id: 67f6381e907fe15ef69f1df0
+            userId: 67f6364eeba7c0aedb007d73
+            name: 'John Snow'
+            phoneNumber: '+380501234567'
+            email: john.snow@winterfell.com
+            isFavourite: false
+            contactType: personal
+            photo: 'https://res.cloudinary.com/dbkdexyl9/image/upload/v1745741839/swbjzex5zv6lsncc4d3e.jpg'
+            createdAt: '2025-03-12T11:05:45.532+00:00'
+            updatedAt: '2025-04-09T09:04:31.812+00:00'

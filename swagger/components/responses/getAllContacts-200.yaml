@@ -29,7 +29,7 @@ content:
             data:
               type: array
               items:
-                $ref: ../schemas/contact.yaml
+                $ref: ../schemas/contactResponseForFormData.yaml
             page:
               type: integer
               minimum: 1

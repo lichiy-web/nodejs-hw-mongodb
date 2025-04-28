@@ -7,6 +7,8 @@ name:
 phoneNumber:
   description: The phone number of the contact
   type: string
+  minLength: 3
+  maxLength: 20
   example: '+380501234567'
 email:
   description: Must be a valid email
@@ -21,7 +23,3 @@ contactType:
   type: string
   enum: ['work', 'home', 'personal']
   example: personal
-photo:
-  description: Link to the contact's avatar image
-  type: string
-  example: 'https://res.cloudinary.com/dbkdexyl9/image/upload/v1745741839/swbjzex5zv6lsncc4d3e.jpg'

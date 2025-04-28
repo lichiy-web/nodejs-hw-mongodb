@@ -5,6 +5,8 @@ required:
   - name
   - phoneNumber
   - contactType
+  - createdAt
+  - updatedAt
 properties:
   _id:
     description: "Contact's id"
@@ -15,3 +17,13 @@ properties:
     type: string
     example: 67f6364eeba7c0aedb007d73
   $ref: ./commonContactProperties.yaml
+  createdAt:
+    description: Time of contact creation.
+    type: string
+    format: date-time
+    example: '2025-03-12T11:05:45.532+00:00'
+  updatedAt:
+    description: Time of last contact update.
+    type: string
+    format: date-time
+    example: '2025-04-09T09:04:31.812+00:00'

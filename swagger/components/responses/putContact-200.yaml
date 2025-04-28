@@ -18,4 +18,4 @@ content:
           example: Successfully updated a contact!
         data:
           type: object
-          $ref: ../schemas/contact.yaml
+          $ref: ../schemas/contactResponseForFormData.yaml

@@ -3,12 +3,24 @@ tags:
 summary: Create a new contact
 operationId: createContact
 description:
-  '**Create** a new contact. Request contains **a body** as a json object with
-  data of the new contact.'
+  '**Create** a new contact.Request contains **a body** as a **json** object
+  with contact update data or **multipart/formdata** body that can contain
+  avatar image.'
 security:
   - bearerAuth: []
 requestBody:
+  description: Provide data of the new contact .
+  required: true
   content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - name
+          - phoneNumber
+          - contactType
+        properties:
+          $ref: ../../components/schemas/commonContactProperties.yaml
     multipart/form-data:
       schema:
         type: object
@@ -18,6 +30,13 @@ requestBody:
           - contactType
         properties:
           $ref: ../../components/schemas/commonContactProperties.yaml
+          photo:
+            description:
+              "The file of the contact's avatar image uploaded to the cloud or
+              server"
+            type: string
+            format: binary
+            example: 'https://res.cloudinary.com/dbkdexyl9/image/upload/v1745741839/swbjzex5zv6lsncc4d3e.jpg'
 
 responses:
   '201':

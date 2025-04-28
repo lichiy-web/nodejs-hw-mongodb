@@ -1,0 +1,34 @@
+type: object
+required:
+  - _id
+  - userId
+  - name
+  - phoneNumber
+  - contactType
+  - createdAt
+  - updatedAt
+properties:
+  _id:
+    description: "Contact's id"
+    type: string
+    example: 67f6381e907fe15ef69f1df0
+  userId:
+    description: The id of the user who created this contact
+    type: string
+    example: 67f6364eeba7c0aedb007d73
+  $ref: ./commonContactProperties.yaml
+  createdAt:
+    description: Time of contact creation.
+    type: string
+    format: date-time
+    example: '2025-03-12T11:05:45.532+00:00'
+  updatedAt:
+    description: Time of last contact update.
+    type: string
+    format: date-time
+    example: '2025-04-09T09:04:31.812+00:00'
+  photo:
+    description:
+      "URL of the contact's avatar image uploaded to the cloud or server"
+    type: string
+    example: 'https://res.cloudinary.com/dbkdexyl9/image/upload/v1745741839/swbjzex5zv6lsncc4d3e.jpg'

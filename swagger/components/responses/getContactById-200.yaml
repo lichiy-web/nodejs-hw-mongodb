@@ -17,4 +17,4 @@ content:
             'Successfully found a contact with id: 67f6381e907fe15ef69f1df0'
         data:
           type: object
-          $ref: ../schemas/contact.yaml
+          $ref: ../schemas/contactResponseForFormData.yaml
