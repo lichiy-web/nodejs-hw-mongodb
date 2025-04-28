@@ -16,7 +16,31 @@ properties:
     description: The id of the user who created this contact
     type: string
     example: 67f6364eeba7c0aedb007d73
-  $ref: ./commonContactProperties.yaml
+  name:
+    description: "The contact's name"
+    type: string
+    minLength: 3
+    maxLength: 20
+    example: 'John Snow'
+  phoneNumber:
+    description: The phone number of the contact
+    type: string
+    minLength: 3
+    maxLength: 20
+    example: '+380501234567'
+  email:
+    description: Must be a valid email
+    type: string
+    example: john.snow@winterfell.com
+  isFavourite:
+    description: Is the contact a favourite?
+    type: boolean
+    example: false
+  contactType:
+    description: Contact group by area of their use
+    type: string
+    enum: ['work', 'home', 'personal']
+    example: personal
   createdAt:
     description: Time of contact creation.
     type: string
