@@ -26,6 +26,7 @@ export const rootController = (req, res) => {
       '/send-reset-email',
       '/reset-pwd',
       '/uploads',
+      '/api-docs',
     ],
     availableQueries: {
       get: [
