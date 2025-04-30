@@ -99,6 +99,12 @@
               "type": "boolean",
               "example": true
             }
+          },
+          {
+            "$ref": "#/components/parameters/cookieSessionId"
+          },
+          {
+            "$ref": "#/components/parameters/cookieRefreshToken"
           }
         ],
         "responses": {
@@ -110,6 +116,9 @@
           },
           "401": {
             "$ref": "#/components/responses/401"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       },
@@ -123,6 +132,14 @@
         "security": [
           {
             "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/cookieSessionId"
+          },
+          {
+            "$ref": "#/components/parameters/cookieRefreshToken"
           }
         ],
         "requestBody": {
@@ -187,7 +204,8 @@
                   "photo": {
                     "description": "The file of the contact's avatar image uploaded to the cloud or server",
                     "type": "string",
-                    "format": "binary"
+                    "format": "binary",
+                    "example": "https://res.cloudinary.com/dbkdexyl9/image/upload/v1745741839/swbjzex5zv6lsncc4d3e.jpg"
                   },
                   "name": {
                     "description": "The contact's name",
@@ -237,6 +255,9 @@
           },
           "401": {
             "$ref": "#/components/responses/401"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -263,6 +284,12 @@
               "type": "string",
               "example": "67f6381e907fe15ef69f1df0"
             }
+          },
+          {
+            "$ref": "#/components/parameters/cookieSessionId"
+          },
+          {
+            "$ref": "#/components/parameters/cookieRefreshToken"
           }
         ],
         "responses": {
@@ -274,6 +301,9 @@
           },
           "404": {
             "$ref": "#/components/responses/getContactById-404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       },
@@ -298,6 +328,12 @@
               "type": "string",
               "example": "67f6381e907fe15ef69f1df0"
             }
+          },
+          {
+            "$ref": "#/components/parameters/cookieSessionId"
+          },
+          {
+            "$ref": "#/components/parameters/cookieRefreshToken"
           }
         ],
         "responses": {
@@ -309,6 +345,9 @@
           },
           "404": {
             "$ref": "#/components/responses/getContactById-404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       },
@@ -333,6 +372,12 @@
               "type": "string",
               "example": "67f6381e907fe15ef69f1df0"
             }
+          },
+          {
+            "$ref": "#/components/parameters/cookieSessionId"
+          },
+          {
+            "$ref": "#/components/parameters/cookieRefreshToken"
           }
         ],
         "requestBody": {
@@ -397,6 +442,9 @@
           },
           "401": {
             "$ref": "#/components/responses/401"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       },
@@ -421,6 +469,12 @@
               "type": "string",
               "example": "67f6381e907fe15ef69f1df0"
             }
+          },
+          {
+            "$ref": "#/components/parameters/cookieSessionId"
+          },
+          {
+            "$ref": "#/components/parameters/cookieRefreshToken"
           }
         ],
         "requestBody": {
@@ -480,6 +534,122 @@
           },
           "404": {
             "$ref": "#/components/responses/getContactById-404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Register a new user",
+        "operationId": "registerUser",
+        "description": "**Register** a new user. Credentials pair is valid email and password. **Ensure** that password is strong.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "User's name and credentials",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/registerUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/registerUser-201"
+          },
+          "400": {
+            "$ref": "#/components/responses/registerUser-400"
+          },
+          "409": {
+            "$ref": "#/components/responses/registerUser-409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Login an user",
+        "operationId": "loginUser",
+        "description": "**Login** an user. Credentials pair is valid email and password.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "User's credentials",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/credentials"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/loginUser-200"
+          },
+          "400": {
+            "$ref": "#/components/responses/registerUser-400"
+          },
+          "401": {
+            "$ref": "#/components/responses/loginUser-401"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Logout an user",
+        "operationId": "logoutUser",
+        "description": "**Login** an user. Credentials pair is valid email and password.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/cookieSessionId"
+          },
+          {
+            "$ref": "#/components/parameters/cookieRefreshToken"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Session has deleted successfully."
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -489,71 +659,30 @@
     "securitySchemes": {
       "bearerAuth": {
         "type": "http",
-        "scheme": "bearerss"
+        "scheme": "bearer"
+      }
+    },
+    "parameters": {
+      "cookieSessionId": {
+        "in": "cookie",
+        "name": "sessionId",
+        "schema": {
+          "type": "string",
+          "description": "The session id. It's set by the backend server.",
+          "example": "67f93807aaafe44c3fd07fb7"
+        }
+      },
+      "cookieRefreshToken": {
+        "in": "cookie",
+        "name": "refreshToken",
+        "schema": {
+          "type": "string",
+          "description": "The refresh token to get a new session id in cookie  and an access token in json body of the server response. It's set by the backend server.",
+          "example": "uEYNbhC4jQ6YcoV9hLPfQRI8oE4ZI/khZyCRkLlh"
+        }
       }
     },
     "schemas": {
-      "contact": {
-        "type": "object",
-        "required": [
-          "_id",
-          "userId",
-          "name",
-          "phoneNumber",
-          "contactType"
-        ],
-        "properties": {
-          "_id": {
-            "description": "Contact's id",
-            "type": "string",
-            "example": "67f6381e907fe15ef69f1df0"
-          },
-          "userId": {
-            "description": "The id of the user who created this contact",
-            "type": "string",
-            "example": "67f6364eeba7c0aedb007d73"
-          },
-          "photo": {
-            "description": "URL of the contact's avatar image uploaded to the cloud or server",
-            "type": "string",
-            "example": "https://res.cloudinary.com/dbkdexyl9/image/upload/v1745741839/swbjzex5zv6lsncc4d3e.jpg"
-          },
-          "name": {
-            "description": "The contact's name",
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 20,
-            "example": "John Snow"
-          },
-          "phoneNumber": {
-            "description": "The phone number of the contact",
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 20,
-            "example": "+380501234567"
-          },
-          "email": {
-            "description": "Must be a valid email",
-            "type": "string",
-            "example": "john.snow@winterfell.com"
-          },
-          "isFavourite": {
-            "description": "Is the contact a favourite?",
-            "type": "boolean",
-            "example": false
-          },
-          "contactType": {
-            "description": "Contact group by area of their use",
-            "type": "string",
-            "enum": [
-              "work",
-              "home",
-              "personal"
-            ],
-            "example": "personal"
-          }
-        }
-      },
       "contactResponseForFormData": {
         "type": "object",
         "required": [
@@ -576,23 +705,6 @@
             "type": "string",
             "example": "67f6364eeba7c0aedb007d73"
           },
-          "createdAt": {
-            "description": "Time of contact creation.",
-            "type": "string",
-            "format": "date-time",
-            "example": "2025-03-12T11:05:45.532+00:00"
-          },
-          "updatedAt": {
-            "description": "Time of last contact update.",
-            "type": "string",
-            "format": "date-time",
-            "example": "2025-04-09T09:04:31.812+00:00"
-          },
-          "photo": {
-            "description": "URL of the contact's avatar image uploaded to the cloud or server",
-            "type": "string",
-            "example": "https://res.cloudinary.com/dbkdexyl9/image/upload/v1745741839/swbjzex5zv6lsncc4d3e.jpg"
-          },
           "name": {
             "description": "The contact's name",
             "type": "string",
@@ -626,6 +738,23 @@
               "personal"
             ],
             "example": "personal"
+          },
+          "createdAt": {
+            "description": "Time of contact creation.",
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-03-12T11:05:45.532Z"
+          },
+          "updatedAt": {
+            "description": "Time of last contact update.",
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-04-09T09:04:31.812Z"
+          },
+          "photo": {
+            "description": "URL of the contact's avatar image uploaded to the cloud or server",
+            "type": "string",
+            "example": "https://res.cloudinary.com/dbkdexyl9/image/upload/v1745741839/swbjzex5zv6lsncc4d3e.jpg"
           }
         }
       },
@@ -651,18 +780,6 @@
             "type": "string",
             "example": "67f6364eeba7c0aedb007d73"
           },
-          "createdAt": {
-            "description": "Time of contact creation.",
-            "type": "string",
-            "format": "date-time",
-            "example": "2025-03-12T11:05:45.532+00:00"
-          },
-          "updatedAt": {
-            "description": "Time of last contact update.",
-            "type": "string",
-            "format": "date-time",
-            "example": "2025-04-09T09:04:31.812+00:00"
-          },
           "name": {
             "description": "The contact's name",
             "type": "string",
@@ -696,6 +813,108 @@
               "personal"
             ],
             "example": "personal"
+          },
+          "createdAt": {
+            "description": "Time of contact creation.",
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-03-12T11:05:45.532Z"
+          },
+          "updatedAt": {
+            "description": "Time of last contact update.",
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-04-09T09:04:31.812Z"
+          }
+        }
+      },
+      "registerUser": {
+        "type": "object",
+        "required": [
+          "name",
+          "email",
+          "password"
+        ],
+        "properties": {
+          "name": {
+            "description": "An user name, not part of credentials.",
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 20,
+            "example": "Eddard Stark"
+          },
+          "email": {
+            "description": "Email is a user's login",
+            "type": "string",
+            "format": "email",
+            "example": "eddard.stark@winterfell.com"
+          },
+          "password": {
+            "description": "User's password",
+            "type": "string",
+            "example": "UseSafePasSwoRds_likEThiS12$-"
+          }
+        }
+      },
+      "userResponse": {
+        "type": "object",
+        "required": [
+          "_id",
+          "name",
+          "email",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "_id": {
+            "description": "User's id",
+            "type": "string",
+            "example": "68117fe3e01ed5b81fd43c97"
+          },
+          "name": {
+            "description": "User name, not a credentials part.",
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 20,
+            "example": "Eddard Stark"
+          },
+          "email": {
+            "description": "Email is a login of user",
+            "type": "string",
+            "format": "email",
+            "example": "eddard.stark@winterfell.com"
+          },
+          "createdAt": {
+            "description": "Time of user register.",
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-04-16T00:48:59.759Z"
+          },
+          "updatedAt": {
+            "description": "Time of last user update.",
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-04-30T01:41:55.437Z"
+          }
+        }
+      },
+      "credentials": {
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "description": "Email is a user's login",
+            "type": "string",
+            "format": "email",
+            "example": "eddard.stark@winterfell.com"
+          },
+          "password": {
+            "description": "User's password",
+            "type": "string",
+            "example": "UseSafePasSwoRds_likEThiS12$-"
           }
         }
       }
@@ -747,6 +966,43 @@
           }
         }
       },
+      "500": {
+        "description": "Internal Server Error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 500
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Something went wrong"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "read ECONNRESET"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "getAllContacts-200": {
         "description": "Found all contacts using pagination, filter and sort query parameters.",
         "content": {
@@ -782,7 +1038,7 @@
                     "data": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/contact"
+                        "$ref": "#/components/schemas/contactResponseForFormData"
                       }
                     },
                     "page": {
@@ -909,7 +1165,7 @@
             },
             "examples": {
               "contactResponseForJson": {
-                "summary": "Contact data as a response for request with json body.",
+                "summary": "Contact data as a response for a request with a json body.",
                 "value": {
                   "status": 201,
                   "message": "Successfully created a contact!",
@@ -927,7 +1183,7 @@
                 }
               },
               "contactResponseForFormData": {
-                "summary": "Contact data as a response for request with multipart/form-data body.",
+                "summary": "Contact data as a response for a request with a multipart/form-data body.",
                 "value": {
                   "status": 201,
                   "message": "Successfully created a contact!",
@@ -1008,7 +1264,7 @@
                 },
                 "data": {
                   "type": "object",
-                  "$ref": "#/components/schemas/contact"
+                  "$ref": "#/components/schemas/contactResponseForFormData"
                 }
               }
             }
@@ -1074,7 +1330,7 @@
                 },
                 "data": {
                   "type": "object",
-                  "$ref": "#/components/schemas/contact"
+                  "$ref": "#/components/schemas/contactResponseForFormData"
                 }
               }
             }
@@ -1103,11 +1359,272 @@
                 },
                 "data": {
                   "type": "object",
-                  "$ref": "#/components/schemas/contact"
+                  "$ref": "#/components/schemas/contactResponseForFormData"
                 }
               }
             }
           }
+        }
+      },
+      "registerUser-201": {
+        "description": "Successfully registered an user! Response contains the json object with data of the new user.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully registered an user!"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/userResponse"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "registerUser-400": {
+        "description": "Wrong body data",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Bad request"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Bad request"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "description": "The all errors scope.",
+                      "items": {
+                        "type": "object",
+                        "description": "Represent one of errors from the scope.",
+                        "required": [
+                          "message",
+                          "paths",
+                          "type",
+                          "context"
+                        ],
+                        "properties": {
+                          "message": {
+                            "type": "string",
+                            "example": "\"email\" must be a valid email"
+                          },
+                          "paths": {
+                            "type": "array",
+                            "description": "Represent property path in the request body json",
+                            "items": {
+                              "type": "string"
+                            },
+                            "example": [
+                              "email"
+                            ]
+                          },
+                          "type": {
+                            "type": "string",
+                            "description": "The type of request json property that excepted an error/s",
+                            "example": "string.email"
+                          },
+                          "context": {
+                            "type": "object",
+                            "required": [
+                              "value",
+                              "invalids",
+                              "key"
+                            ],
+                            "properties": {
+                              "value": {
+                                "type": "string",
+                                "description": "The property value that excepted an error",
+                                "example": "eddard.stark_winterfell.com"
+                              },
+                              "invalids": {
+                                "type": "array",
+                                "description": "The List of invalid values.",
+                                "example": [
+                                  "eddard.stark_winterfell.com"
+                                ]
+                              },
+                              "key": {
+                                "type": "string",
+                                "description": "The key of property that excepted an error",
+                                "example": "email"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "registerUser-409": {
+        "description": "The user with the specified email address already exists.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 409
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Email in use"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Email in use"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "loginUser-200": {
+        "description": "Successfully authenticated! Response contains the json object with an acces token. </br> The **session id** and **refresh token** are returned in a **cookies** named \"sessionId\" and \"refreshToken\" respectively. Include these cookies in subsequent requests.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully logged in an user!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "description": "An object conains a token to attach it to every http request to access protected resources. ",
+                      "required": [
+                        "accessToken"
+                      ],
+                      "properties": {
+                        "accessToken": {
+                          "type": "string",
+                          "description": "Every access token is valid within 5 min. ",
+                          "example": "HX2tUXNch7cXz9kJntFrSshhiByy7ow5LEECddZm"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "headers": {
+          "Set-Cookie": {
+            "$ref": "#/components/headers/setCookies"
+          }
+        }
+      },
+      "loginUser-401": {
+        "description": "Unauthorized request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 401
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Unauthorized"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "headers": {
+      "setCookies": {
+        "schema": {
+          "type": "string",
+          "example": "sessionId=67f93807aaafe44c3fd07fb7; Path=/; Expires=Fri, 30 May 2025 03:35:20 GMT; HttpOnly; refreshToken=uEYNbhC4jQ6YcoV9hLPfQRI8oE4ZI/khZyCRkLlh; Path=/; Expires=Fri, 30 May 2025 03:35:20 GMT; HttpOnly;"
         }
       }
     }

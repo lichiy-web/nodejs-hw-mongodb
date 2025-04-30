@@ -1,4 +1,4 @@
-description: The contact is absent in the database
+description: Internal Server Error
 content:
   application/json:
     schema:
@@ -10,10 +10,10 @@ content:
       properties:
         status:
           type: integer
-          example: 404
+          example: 500
         message:
           type: string
-          example: 'Contact not found!'
+          example: 'Something went wrong'
         data:
           type: object
           required:
@@ -21,4 +21,4 @@ content:
           properties:
             message:
               type: string
-              example: 'Contact not found!'
+              example: 'read ECONNRESET'

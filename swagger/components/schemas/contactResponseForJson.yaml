@@ -45,9 +45,9 @@ properties:
     description: Time of contact creation.
     type: string
     format: date-time
-    example: '2025-03-12T11:05:45.532+00:00'
+    example: '2025-03-12T11:05:45.532Z'
   updatedAt:
     description: Time of last contact update.
     type: string
     format: date-time
-    example: '2025-04-09T09:04:31.812+00:00'
+    example: '2025-04-09T09:04:31.812Z'

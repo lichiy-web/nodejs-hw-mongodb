@@ -14,7 +14,7 @@ import { sendEmail } from '../utils/sendEmail.js';
 
 export const registerUser = async newUser => {
   const user = await UserCollection.findOne({ email: newUser.email });
-  if (user) throw createHttpError(409, 'Email in use');
+  if (user) throw createHttpError(409, RES_MSG[409].emailInUse);
 
   const encryptedPassword = await bcrypt.hash(newUser.password, PWD_HASH_SALT);
   return await UserCollection.create({

@@ -1,4 +1,0 @@
-description: Time of contact creation.
-type: string
-format: date-time
-example: '2025-03-12T11:05:45.532+00:00'

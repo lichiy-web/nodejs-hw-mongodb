@@ -15,35 +15,45 @@ parameters:
     name: page
     schema:
       type: integer
-    example: 1
+      example: 14
+      default: 1
   - in: query
     name: perPage
     schema:
       type: integer
-      example: 10
+      example: 20
+      default: 10
   - in: query
     name: sortBy
     schema:
       type: string
       example: 'name'
-    description: "All contacts's fields can be mentioned. Default value - _id"
+      default: '_id'
+    description: "All contacts's fields can be mentioned."
   - in: query
     name: sortOrder
     schema:
       type: string
       enum: ['asc', 'desc']
       example: 'asc'
+      default: 'asc'
   - in: query
     name: type
     schema:
+      description:
+        The filter parameter that narrows down the response by the contact type.
       type: string
       enum: ['work', 'home', 'personal']
       example: home
+      default: null
   - in: query
     name: isFavourite
     schema:
       type: boolean
       example: true
+      default: null
+  - $ref: ../../components/schemas/cookieSessionId.yaml
+  - $ref: ../../components/schemas/cookieRefreshToken.yaml
 responses:
   '200':
     $ref: ../../components/responses/getAllContacts-200.yaml
@@ -51,3 +61,5 @@ responses:
     $ref: ../../components/responses/getAllContacts-400.yaml
   '401':
     $ref: ../../components/responses/401.yaml
+  '500':
+    $ref: ../../components/responses/500.yaml

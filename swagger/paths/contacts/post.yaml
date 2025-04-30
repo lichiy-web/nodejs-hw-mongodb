@@ -8,6 +8,9 @@ description:
   avatar image.'
 security:
   - bearerAuth: []
+parameters:
+  - $ref: ../../components/schemas/cookieSessionId.yaml
+  - $ref: ../../components/schemas/cookieRefreshToken.yaml
 requestBody:
   description: Provide data of the new contact .
   required: true
@@ -45,3 +48,5 @@ responses:
     $ref: ../../components/responses/createContact-400.yaml
   '401':
     $ref: ../../components/responses/401.yaml
+  '500':
+    $ref: ../../components/responses/500.yaml

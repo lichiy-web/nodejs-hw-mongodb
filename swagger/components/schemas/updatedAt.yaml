@@ -1,4 +1,0 @@
-description: Time of last contact update.
-type: string
-format: date-time
-example: '2025-04-09T09:04:31.812+00:00'

@@ -33,6 +33,10 @@ export const RES_MSG = {
     noContact: 'Contact not found!',
     noUser: 'User not found!',
   },
+  409: {
+    default: '',
+    emailInUse: 'Email in use',
+  },
   500: {
     default: 'Something went wrong',
     noSwaggerDocs: "Can't load swagger docs",
