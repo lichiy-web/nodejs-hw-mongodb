@@ -18,7 +18,7 @@ content:
               type: string
               example: Successfully created a contact!
             data:
-              $ref: ../schemas/contactResponseForFormData.yaml
+              $ref: ../schemas/contactResponseForJson.yaml
         - type: object
           required:
             - status
@@ -32,7 +32,7 @@ content:
               type: string
               example: Successfully created a contact!
             data:
-              $ref: ../schemas/contactResponseForJson.yaml
+              $ref: ../schemas/contactResponseForFormData.yaml
     examples:
       contactResponseForJson:
         summary: Contact data as a response for a request with a json body.
@@ -47,8 +47,8 @@ content:
             email: john.snow@winterfell.com
             isFavourite: false
             contactType: personal
-            createdAt: '2025-03-12T11:05:45.532+00:00'
-            updatedAt: '2025-04-09T09:04:31.812+00:00'
+            createdAt: '2025-03-12T11:05:45.532Z'
+            updatedAt: '2025-04-09T09:04:31.812Z'
       contactResponseForFormData:
         summary:
           Contact data as a response for a request with a multipart/form-data
@@ -65,5 +65,5 @@ content:
             isFavourite: false
             contactType: personal
             photo: 'https://res.cloudinary.com/dbkdexyl9/image/upload/v1745741839/swbjzex5zv6lsncc4d3e.jpg'
-            createdAt: '2025-03-12T11:05:45.532+00:00'
+            createdAt: '2025-03-12T11:05:45.532Z'
             updatedAt: '2025-04-09T09:04:31.812+00:00'

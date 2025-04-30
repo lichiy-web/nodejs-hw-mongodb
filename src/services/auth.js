@@ -1,7 +1,12 @@
 import createHttpError from 'http-errors';
 import bcrypt from 'bcrypt';
 import { SessionCollection } from '../db/models/Session.js';
-import { PWD_HASH_SALT, SMTP, TEMPLATES_DIR } from '../constants/index.js';
+import {
+  PWD_HASH_SALT,
+  SMTP,
+  TEMPLATES_DIR,
+  TOKEN_LENGTH,
+} from '../constants/index.js';
 import { createSession } from '../utils/createSession.js';
 import { UserCollection } from '../db/models/User.js';
 import { RES_MSG } from '../constants/contacts.js';
@@ -11,6 +16,10 @@ import path from 'node:path';
 import handlebars from 'handlebars';
 import fs from 'node:fs/promises';
 import { sendEmail } from '../utils/sendEmail.js';
+import {
+  getFullNameFromGoogleTokenPayload,
+  validateCode,
+} from '../utils/googleOAuth2.js';
 
 export const registerUser = async newUser => {
   const user = await UserCollection.findOne({ email: newUser.email });
@@ -121,4 +130,25 @@ export const resetPassword = async ({ token, password }) => {
     { _id: userId },
     { password: encryptedPassword },
   );
+};
+
+export const loginOrSignupWithGoogle = async code => {
+  const loginTicket = await validateCode(code);
+  const payload = loginTicket.getPayload();
+  if (!payload) throw createHttpError(401, RES_MSG[401].default);
+
+  let user = await UserCollection.findOne({ email: payload.email });
+  if (!user) {
+    const password = await bcrypt.hash(
+      crypto.randomBytes(TOKEN_LENGTH),
+      PWD_HASH_SALT,
+    );
+    user = await UserCollection.create({
+      email: payload.email,
+      name: getFullNameFromGoogleTokenPayload(payload),
+      password,
+    });
+  }
+
+  return await SessionCollection.create(createSession(user._id));
 };

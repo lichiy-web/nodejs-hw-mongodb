@@ -9,6 +9,8 @@ export const RES_MSG = {
     refreshUserSession: 'Successfully refreshed a session!',
     sendResetEmail: 'Reset password email has been successfully sent.',
     resetPwd: 'Password has been successfully reset!',
+    getGoogleOAuthUrl: 'Successfully get Google OAuth url!',
+    loginWithGoogle: 'Successfully logged in via Google OAuth!',
   },
   201: {
     default: 'Successfully created',

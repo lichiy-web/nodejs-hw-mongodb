@@ -1,5 +1,6 @@
 import { RES_MSG } from '../constants/contacts.js';
 import {
+  loginOrSignupWithGoogle,
   loginUser,
   logoutUser,
   refreshUserSession,
@@ -7,6 +8,7 @@ import {
   resetPassword,
   sendResetEmail,
 } from '../services/auth.js';
+import { generateAuthUrl } from '../utils/googleOAuth2.js';
 import { setupSession } from '../utils/setupSession.js';
 
 export const registerUserController = async (req, res) => {
@@ -76,5 +78,29 @@ export const resetPasswordController = async (req, res) => {
     status: 200,
     message: RES_MSG[200].resetPwd,
     data: {},
+  });
+};
+
+export const getGoogleOAuthUrlController = async (req, res) => {
+  const url = generateAuthUrl();
+  res.json({
+    status: 200,
+    message: RES_MSG[200].getGoogleOAuthUrl,
+    data: {
+      url,
+    },
+  });
+};
+
+export const loginWithGoogleController = async (req, res) => {
+  const session = await loginOrSignupWithGoogle(req.body.code);
+  setupSession(res, session);
+
+  res.json({
+    status: 200,
+    message: RES_MSG[200].loginWithGoogle,
+    data: {
+      accessToken: session.accessToken,
+    },
   });
 };
