@@ -46,16 +46,18 @@
             "in": "query",
             "name": "page",
             "schema": {
-              "type": "integer"
-            },
-            "example": 1
+              "type": "integer",
+              "example": 14,
+              "default": 1
+            }
           },
           {
             "in": "query",
             "name": "perPage",
             "schema": {
               "type": "integer",
-              "example": 10
+              "example": 20,
+              "default": 10
             }
           },
           {
@@ -63,9 +65,10 @@
             "name": "sortBy",
             "schema": {
               "type": "string",
-              "example": "name"
+              "example": "name",
+              "default": "_id"
             },
-            "description": "All contacts's fields can be mentioned. Default value - _id"
+            "description": "All contacts's fields can be mentioned."
           },
           {
             "in": "query",
@@ -76,20 +79,23 @@
                 "asc",
                 "desc"
               ],
-              "example": "asc"
+              "example": "asc",
+              "default": "asc"
             }
           },
           {
             "in": "query",
             "name": "type",
             "schema": {
+              "description": "The filter parameter that narrows down the response by the contact type.",
               "type": "string",
               "enum": [
                 "work",
                 "home",
                 "personal"
               ],
-              "example": "home"
+              "example": "home",
+              "default": null
             }
           },
           {
@@ -97,7 +103,8 @@
             "name": "isFavourite",
             "schema": {
               "type": "boolean",
-              "example": true
+              "example": true,
+              "default": null
             }
           },
           {
@@ -601,7 +608,6 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
                 "$ref": "#/components/schemas/credentials"
               }
             }
@@ -646,7 +652,223 @@
         ],
         "responses": {
           "204": {
-            "description": "Session has deleted successfully."
+            "description": "Session has deleted successfully.",
+            "headers": {
+              "Set-Cookie": {
+                "$ref": "#/components/headers/clearCookes"
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Refresh a session",
+        "operationId": "refreshUserSession",
+        "description": "**Refresh** a user session. Use this endpoint to get a new pair of a sessionId and refreshToken in cookie and an access token in the response json body, if access token is expired.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/cookieSessionId"
+          },
+          {
+            "$ref": "#/components/parameters/cookieRefreshToken"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/refreshUser-200"
+          },
+          "401": {
+            "$ref": "#/components/responses/refreshToken-401"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/auth/send-reset-email": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Send reset email",
+        "operationId": "sendResetEmail",
+        "description": "**Send email** to the user to reset its password. **Provide** an user email address to which the server should send an email with a password reset link.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "User's email",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email"
+                ],
+                "properties": {
+                  "email": {
+                    "description": "The email address to get the password reset link.",
+                    "type": "string",
+                    "format": "email",
+                    "example": "eddard.stark@winterfell.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/sendResetEmail-200"
+          },
+          "400": {
+            "$ref": "#/components/responses/registerUser-400"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/auth/reset-pwd": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Reset user's password",
+        "operationId": "resetPassword",
+        "description": "**Reset** the user's password. **Provide** a signed JSON web token contained information about the user and a new password to the reset.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Data to reset the user's password",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "token",
+                  "password"
+                ],
+                "properties": {
+                  "token": {
+                    "description": "A JSON web token with info about the **user**: {**userId, email**} and a **time stamp** when it expires.",
+                    "type": "string",
+                    "format": "byte",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2ZlZmU3YjY4MGRhNTk1Zjg5Y2RhNzAiLCJlbWFpbCI6ImxpY2hpeS5zdG9ybXNob3RAZ21haWwuY29tIiwiaWF0IjoxNzQ0OTQwNDE2LCJleHAiOjE3NDQ5NDA3MTZ9.MQpKvgnfv5ddNuJ5zz0e7mz68DaS5kezT_RmiPirnzQ"
+                  },
+                  "password": {
+                    "description": "The new user's password",
+                    "type": "string",
+                    "format": "password",
+                    "example": "UseStRongPAsswoRds_LikeThiS12-4"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/resetEmail-200"
+          },
+          "401": {
+            "$ref": "#/components/responses/resetPassword-401"
+          },
+          "404": {
+            "$ref": "#/components/responses/resetPassword-404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/auth/get-oauth-url": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Get google oauth URL",
+        "operationId": "getGoogleOAuthUrl",
+        "description": "**Get** google auth URL to use it in GET HTTP request to get an user code with permission and user data.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/getGoogleOAuthUrl-200"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/auth/confirm-oauth": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Login with google OAuth API",
+        "operationId": "loginWithGoogleOAuth",
+        "description": "**Login** with google OAuth API. Pass in the request JSON body code gotten from the same name query parameter of URL that the google consent screen redirects to.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "User's credentials",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "code"
+                ],
+                "properties": {
+                  "code": {
+                    "description": "The **code** query parameter retrieved from the URL to which google consent screen redirects. </br> **This URL** looks like: </br> [http://domain-name.com/auth/confirm-oauth?**code=4%2F0Ab_5qlk0KhUUB4nN9ThyM9dTe4_fUvUOet8Vwab2B9pAG1ds5cvLq3KGaGrkHOznH5dF-g**&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&authuser=8&prompt=none]()",
+                    "type": "string",
+                    "format": "byte",
+                    "example": "4/0Ab_5qlk0KhUUB4nN9ThyM9dTe4_fUvUOet8Vwab2B9pAG1ds5cvLq3KGaGrkHOznH5dF-g"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/loginUser-200"
+          },
+          "401": {
+            "$ref": "#/components/responses/loginUser-401"
           },
           "500": {
             "$ref": "#/components/responses/500"
@@ -666,6 +888,7 @@
       "cookieSessionId": {
         "in": "cookie",
         "name": "sessionId",
+        "required": true,
         "schema": {
           "type": "string",
           "description": "The session id. It's set by the backend server.",
@@ -675,6 +898,7 @@
       "cookieRefreshToken": {
         "in": "cookie",
         "name": "refreshToken",
+        "required": true,
         "schema": {
           "type": "string",
           "description": "The refresh token to get a new session id in cookie  and an access token in json body of the server response. It's set by the backend server.",
@@ -1136,7 +1360,7 @@
                       "example": "Successfully created a contact!"
                     },
                     "data": {
-                      "$ref": "#/components/schemas/contactResponseForFormData"
+                      "$ref": "#/components/schemas/contactResponseForJson"
                     }
                   }
                 },
@@ -1157,7 +1381,7 @@
                       "example": "Successfully created a contact!"
                     },
                     "data": {
-                      "$ref": "#/components/schemas/contactResponseForJson"
+                      "$ref": "#/components/schemas/contactResponseForFormData"
                     }
                   }
                 }
@@ -1177,8 +1401,8 @@
                     "email": "john.snow@winterfell.com",
                     "isFavourite": false,
                     "contactType": "personal",
-                    "createdAt": "2025-03-12T11:05:45.532+00:00",
-                    "updatedAt": "2025-04-09T09:04:31.812+00:00"
+                    "createdAt": "2025-03-12T11:05:45.532Z",
+                    "updatedAt": "2025-04-09T09:04:31.812Z"
                   }
                 }
               },
@@ -1196,7 +1420,7 @@
                     "isFavourite": false,
                     "contactType": "personal",
                     "photo": "https://res.cloudinary.com/dbkdexyl9/image/upload/v1745741839/swbjzex5zv6lsncc4d3e.jpg",
-                    "createdAt": "2025-03-12T11:05:45.532+00:00",
+                    "createdAt": "2025-03-12T11:05:45.532Z",
                     "updatedAt": "2025-04-09T09:04:31.812+00:00"
                   }
                 }
@@ -1272,7 +1496,7 @@
         }
       },
       "getContactById-404": {
-        "description": "Contact is absent in the database",
+        "description": "The contact is absent in the database",
         "content": {
           "application/json": {
             "schema": {
@@ -1371,29 +1595,25 @@
         "content": {
           "application/json": {
             "schema": {
-              "oneOf": [
-                {
-                  "type": "object",
-                  "required": [
-                    "status",
-                    "message",
-                    "data"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 201
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Successfully registered an user!"
-                    },
-                    "data": {
-                      "$ref": "#/components/schemas/userResponse"
-                    }
-                  }
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 201
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Successfully registered an user!"
+                },
+                "data": {
+                  "$ref": "#/components/schemas/userResponse"
                 }
-              ]
+              }
             }
           }
         }
@@ -1535,44 +1755,40 @@
         }
       },
       "loginUser-200": {
-        "description": "Successfully authenticated! Response contains the json object with an acces token. </br> The **session id** and **refresh token** are returned in a **cookies** named \"sessionId\" and \"refreshToken\" respectively. Include these cookies in subsequent requests.",
+        "description": "Successfully authenticated! Response contains the json object with an access token. </br> The **session id** and **refresh token** are returned in **cookies** named **sessionId** and **refreshToken** respectively. Include these cookies in subsequent requests.",
         "content": {
           "application/json": {
             "schema": {
-              "oneOf": [
-                {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Successfully logged in an user!"
+                },
+                "data": {
                   "type": "object",
+                  "description": "An object conains a token to attach it to every http request to access protected resources. ",
                   "required": [
-                    "status",
-                    "message",
-                    "data"
+                    "accessToken"
                   ],
                   "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 200
-                    },
-                    "message": {
+                    "accessToken": {
                       "type": "string",
-                      "example": "Successfully logged in an user!"
-                    },
-                    "data": {
-                      "type": "object",
-                      "description": "An object conains a token to attach it to every http request to access protected resources. ",
-                      "required": [
-                        "accessToken"
-                      ],
-                      "properties": {
-                        "accessToken": {
-                          "type": "string",
-                          "description": "Every access token is valid within 5 min. ",
-                          "example": "HX2tUXNch7cXz9kJntFrSshhiByy7ow5LEECddZm"
-                        }
-                      }
+                      "description": "Every access token is valid within 15 min. ",
+                      "example": "HX2tUXNch7cXz9kJntFrSshhiByy7ow5LEECddZm"
                     }
                   }
                 }
-              ]
+              }
             }
           }
         },
@@ -1618,6 +1834,275 @@
             }
           }
         }
+      },
+      "refreshUser-200": {
+        "description": "Successfully refreshed a session! Response contains the json object with an acces token. </br> The **session id** and **refresh token** are returned in a **cookies** named \"sessionId\" and \"refreshToken\" respectively. Include these cookies in subsequent requests.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Successfully refreshed a session!"
+                },
+                "data": {
+                  "type": "object",
+                  "description": "An object conains a token to attach it to every http request to access protected resources. ",
+                  "required": [
+                    "accessToken"
+                  ],
+                  "properties": {
+                    "accessToken": {
+                      "type": "string",
+                      "description": "Every access token is valid within 15 min. ",
+                      "example": "HX2tUXNch7cXz9kJntFrSshhiByy7ow5LEECddZm"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "headers": {
+          "Set-Cookie": {
+            "$ref": "#/components/headers/setCookies"
+          }
+        }
+      },
+      "refreshToken-401": {
+        "description": "Unauthorized request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 401
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Unauthorized"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": [
+                        "Session not found",
+                        "User not found",
+                        "Auth header should be of type Bearer",
+                        "Please provide Authorization header",
+                        "Access token expired",
+                        "Refresh token expired",
+                        "Token is expired or invalid."
+                      ],
+                      "example": "Refresh token expired"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "sendResetEmail-200": {
+        "description": "Reset password email has been successfully sent. Response contains the json object with an empty object data.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Reset password email has been successfully sent."
+                },
+                "data": {
+                  "type": "object",
+                  "description": "An empty object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "resetEmail-200": {
+        "description": "Password has been successfully reset! Response contains the json object with an empty object data.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Password has been successfully reset!"
+                },
+                "data": {
+                  "type": "object",
+                  "description": "An empty object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "resetPassword-401": {
+        "description": "Unauthorized request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 401
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Unauthorized"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": [
+                        "Session not found",
+                        "User not found",
+                        "Auth header should be of type Bearer",
+                        "Please provide Authorization header",
+                        "Access token expired",
+                        "Refresh token expired",
+                        "Token is expired or invalid."
+                      ],
+                      "example": "Token is expired or invalid."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "resetPassword-404": {
+        "description": "The user is absent in the database",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "message": {
+                  "type": "string",
+                  "example": "User not found!"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User not found!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "getGoogleOAuthUrl-200": {
+        "description": "Successfully get google OAuth url! Response contains the json object with an appropriated url address of the google consent screen.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Successfully get Google OAuth url!"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "url"
+                  ],
+                  "properties": {
+                    "url": {
+                      "type": "string",
+                      "format": "uri",
+                      "example": "https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&response_type=code&client_id=547583953910-7d3oeii39ljp8pkq3jlno4djo4tdvu27.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fconfirm-oauth"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "headers": {
@@ -1625,6 +2110,12 @@
         "schema": {
           "type": "string",
           "example": "sessionId=67f93807aaafe44c3fd07fb7; Path=/; Expires=Fri, 30 May 2025 03:35:20 GMT; HttpOnly; refreshToken=uEYNbhC4jQ6YcoV9hLPfQRI8oE4ZI/khZyCRkLlh; Path=/; Expires=Fri, 30 May 2025 03:35:20 GMT; HttpOnly;"
+        }
+      },
+      "clearCookes": {
+        "schema": {
+          "type": "string",
+          "example": "sessionId=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; refreshToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT;"
         }
       }
     }

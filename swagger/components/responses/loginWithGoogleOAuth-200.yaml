@@ -1,8 +1,8 @@
 description:
-  'Successfully authenticated! Response contains the json object with an access
-  token. </br> The **session id** and **refresh token** are returned in
-  **cookies** named **sessionId** and **refreshToken** respectively. Include
-  these cookies in subsequent requests.'
+  'Successfully authenticated with google OAuth API! Response contains the json
+  object with an acces token. </br> The **session id** and **refresh token** are
+  returned in a **cookies** named "sessionId" and "refreshToken" respectively.
+  Include these cookies in subsequent requests.'
 content:
   application/json:
     schema:
