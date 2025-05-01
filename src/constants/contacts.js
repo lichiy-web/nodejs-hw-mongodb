@@ -31,7 +31,7 @@ export const RES_MSG = {
     badResetToken: 'Token is expired or invalid.',
   },
   404: {
-    default: 'Rout not found!',
+    default: 'Route not found!',
     noContact: 'Contact not found!',
     noUser: 'User not found!',
   },
