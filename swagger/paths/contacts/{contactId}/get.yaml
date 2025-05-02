@@ -20,6 +20,8 @@ parameters:
 responses:
   '200':
     $ref: ../../../components/responses/getContactById-200.yaml
+  '400':
+    $ref: ../../../components/responses/400-invalidId.yaml
   '404':
     $ref: ../../../components/responses/getContactById-404.yaml
   '401':

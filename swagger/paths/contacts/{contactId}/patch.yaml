@@ -29,7 +29,7 @@ responses:
   '200':
     $ref: ../../../components/responses/patchContact-200.yaml
   '400':
-    $ref: ../../../components/responses/createContact-400.yaml
+    $ref: ../../../components/responses/400-invalidIdOrBodyData.yaml
   '401':
     $ref: ../../../components/responses/401.yaml
   '404':
