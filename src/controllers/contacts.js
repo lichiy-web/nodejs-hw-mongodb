@@ -131,10 +131,19 @@ export const deleteContactController = async (req, res) => {
 export const upsertContactController = async (req, res) => {
   const userId = req.user._id;
   const { contactId } = req.params;
+  const photoUrl = await saveFileAndGetUrl(req.file);
 
-  const result = await updateContact(userId, contactId, req.body, {
-    upsert: true,
-  });
+  const result = await updateContact(
+    userId,
+    contactId,
+    {
+      ...req.body,
+      photo: photoUrl,
+    },
+    {
+      upsert: true,
+    },
+  );
 
   if (!result) {
     throw createHttpError(404, RES_MSG[404].noContact);

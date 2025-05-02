@@ -97,7 +97,7 @@ export const updateContact = async (
   update,
   options = {},
 ) => {
-  if (update.photo) {
+  if (update.photo && !options.upsert) {
     const { photo: oldPhoto } = await ContactCollection.findOne({
       userId,
       _id: contactId,
