@@ -60,7 +60,7 @@ content:
                       value:
                         type: string
                         description: The property value that excepted an error
-                        example: 1324567890
+                        example: !!int 1324567890
                       key:
                         type: string
                         description: The key of property that excepted an error
