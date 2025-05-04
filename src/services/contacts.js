@@ -87,7 +87,7 @@ export const deleteContact = async (userId, contactId) => {
     userId,
     _id: contactId,
   });
-  if (contact.photo) await deleteFileFromStorage(contact.photo);
+  if (contact?.photo) await deleteFileFromStorage(contact.photo);
   return contact;
 };
 
@@ -97,13 +97,15 @@ export const updateContact = async (
   update,
   options = {},
 ) => {
-  if (update.photo && !options.upsert) {
-    const { photo: oldPhoto } = await ContactCollection.findOne({
-      userId,
-      _id: contactId,
-    });
-    deleteFileFromStorage(oldPhoto);
-  }
+  const contact = await ContactCollection.findOne({
+    userId,
+    _id: contactId,
+  });
+
+  const oldPhoto = contact?.photo ?? '';
+  update.photo ??= options.upsert ? '' : oldPhoto;
+  if (update.photo !== oldPhoto) deleteFileFromStorage(oldPhoto);
+
   const rawResult = await ContactCollection.findOneAndUpdate(
     { userId, _id: contactId },
     update,
