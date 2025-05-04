@@ -30,6 +30,8 @@ requestBody:
 responses:
   '200':
     $ref: ../../../components/responses/loginUser-200.yaml
+  '400':
+    $ref: ../../../components/responses/confirm-oauth-400.yaml
   '401':
     $ref: ../../../components/responses/loginUser-401.yaml
   '500':

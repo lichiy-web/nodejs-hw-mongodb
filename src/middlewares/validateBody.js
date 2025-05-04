@@ -2,6 +2,7 @@ import createHttpError from 'http-errors';
 import { RES_MSG } from '../constants/contacts.js';
 
 export const validateBody = schema => async (req, res, next) => {
+  console.log('validateBody: req.body = ', req.body);
   try {
     await schema.validateAsync(req.body, {
       abortEarly: false,

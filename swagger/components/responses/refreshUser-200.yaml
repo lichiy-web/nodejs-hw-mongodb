@@ -1,6 +1,6 @@
 description:
   'Successfully refreshed a session! Response contains the json object with an
-  acces token. </br> The **session id** and **refresh token** are returned in a
+  acces token. </br> The **session id** and **refresh token** are returned in
   **cookies** named "sessionId" and "refreshToken" respectively. Include these
   cookies in subsequent requests.'
 content:
