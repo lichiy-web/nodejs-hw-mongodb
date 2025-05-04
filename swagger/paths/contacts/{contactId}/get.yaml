@@ -15,6 +15,7 @@ parameters:
     schema:
       type: string
       example: '67f6381e907fe15ef69f1df0'
+  - $ref: ../../../components/schemas/authHeader.yaml
   - $ref: ../../../components/schemas/cookieSessionId.yaml
   - $ref: ../../../components/schemas/cookieRefreshToken.yaml
 responses:

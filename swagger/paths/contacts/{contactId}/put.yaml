@@ -15,10 +15,20 @@ parameters:
     schema:
       type: string
       example: '67f6381e907fe15ef69f1df0'
+  - $ref: ../../../components/schemas/authHeader.yaml
   - $ref: ../../../components/schemas/cookieSessionId.yaml
   - $ref: ../../../components/schemas/cookieRefreshToken.yaml
 requestBody:
   content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - name
+          - phoneNumber
+          - contactType
+        properties:
+          $ref: ../../../components/schemas/commonContactProperties.yaml
     multipart/form-data:
       schema:
         type: object
@@ -28,6 +38,13 @@ requestBody:
           - contactType
         properties:
           $ref: ../../../components/schemas/commonContactProperties.yaml
+          photo:
+            description:
+              "The file of the contact's avatar image uploaded to the cloud or
+              server"
+            type: string
+            format: binary
+            example: 'https://res.cloudinary.com/dbkdexyl9/image/upload/v1745741839/swbjzex5zv6lsncc4d3e.jpg'
 
 responses:
   '200':

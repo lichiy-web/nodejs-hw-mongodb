@@ -43,6 +43,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/components/parameters/authHeader"
+          },
+          {
             "in": "query",
             "name": "page",
             "schema": {
@@ -142,6 +145,9 @@
           }
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/authHeader"
+          },
           {
             "$ref": "#/components/parameters/cookieSessionId"
           },
@@ -293,6 +299,9 @@
             }
           },
           {
+            "$ref": "#/components/parameters/authHeader"
+          },
+          {
             "$ref": "#/components/parameters/cookieSessionId"
           },
           {
@@ -338,6 +347,9 @@
               "type": "string",
               "example": "67f6381e907fe15ef69f1df0"
             }
+          },
+          {
+            "$ref": "#/components/parameters/authHeader"
           },
           {
             "$ref": "#/components/parameters/cookieSessionId"
@@ -387,6 +399,9 @@
             }
           },
           {
+            "$ref": "#/components/parameters/authHeader"
+          },
+          {
             "$ref": "#/components/parameters/cookieSessionId"
           },
           {
@@ -395,6 +410,52 @@
         ],
         "requestBody": {
           "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "phoneNumber",
+                  "contactType"
+                ],
+                "properties": {
+                  "name": {
+                    "description": "The contact's name",
+                    "type": "string",
+                    "minLength": 3,
+                    "maxLength": 20,
+                    "example": "John Snow"
+                  },
+                  "phoneNumber": {
+                    "description": "The phone number of the contact",
+                    "type": "string",
+                    "minLength": 3,
+                    "maxLength": 20,
+                    "example": "+380501234567"
+                  },
+                  "email": {
+                    "description": "Must be a valid email",
+                    "type": "string",
+                    "example": "john.snow@winterfell.com"
+                  },
+                  "isFavourite": {
+                    "description": "Is the contact a favourite?",
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "contactType": {
+                    "description": "Contact group by area of their use",
+                    "type": "string",
+                    "enum": [
+                      "work",
+                      "home",
+                      "personal"
+                    ],
+                    "example": "personal"
+                  }
+                }
+              }
+            },
             "multipart/form-data": {
               "schema": {
                 "type": "object",
@@ -404,6 +465,12 @@
                   "contactType"
                 ],
                 "properties": {
+                  "photo": {
+                    "description": "The file of the contact's avatar image uploaded to the cloud or server",
+                    "type": "string",
+                    "format": "binary",
+                    "example": "https://res.cloudinary.com/dbkdexyl9/image/upload/v1745741839/swbjzex5zv6lsncc4d3e.jpg"
+                  },
                   "name": {
                     "description": "The contact's name",
                     "type": "string",
@@ -484,6 +551,9 @@
             }
           },
           {
+            "$ref": "#/components/parameters/authHeader"
+          },
+          {
             "$ref": "#/components/parameters/cookieSessionId"
           },
           {
@@ -492,10 +562,57 @@
         ],
         "requestBody": {
           "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "description": "The contact's name",
+                    "type": "string",
+                    "minLength": 3,
+                    "maxLength": 20,
+                    "example": "John Snow"
+                  },
+                  "phoneNumber": {
+                    "description": "The phone number of the contact",
+                    "type": "string",
+                    "minLength": 3,
+                    "maxLength": 20,
+                    "example": "+380501234567"
+                  },
+                  "email": {
+                    "description": "Must be a valid email",
+                    "type": "string",
+                    "example": "john.snow@winterfell.com"
+                  },
+                  "isFavourite": {
+                    "description": "Is the contact a favourite?",
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "contactType": {
+                    "description": "Contact group by area of their use",
+                    "type": "string",
+                    "enum": [
+                      "work",
+                      "home",
+                      "personal"
+                    ],
+                    "example": "personal"
+                  }
+                }
+              }
+            },
             "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "properties": {
+                  "photo": {
+                    "description": "The file of the contact's avatar image uploaded to the cloud or server",
+                    "type": "string",
+                    "format": "binary",
+                    "example": "https://res.cloudinary.com/dbkdexyl9/image/upload/v1745741839/swbjzex5zv6lsncc4d3e.jpg"
+                  },
                   "name": {
                     "description": "The contact's name",
                     "type": "string",
@@ -894,6 +1011,16 @@
       }
     },
     "parameters": {
+      "authHeader": {
+        "in": "header",
+        "name": "Authorization",
+        "description": "The token issued to the current user.",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "example": "Bearer z1bRiXLYvXfLyGF27MpmzmJMjD2A9CymuZPPgDsp"
+        }
+      },
       "cookieSessionId": {
         "in": "cookie",
         "name": "sessionId",
